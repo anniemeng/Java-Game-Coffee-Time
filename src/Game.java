@@ -14,35 +14,95 @@ import javax.swing.*;
  */
 public class Game implements Runnable {
 	public void run() {
-		// NOTE : recall that the 'final' keyword notes inmutability
-		// even for local variables.
 
 		// Top-level frame in which game components live
-		// Be sure to change "TOP LEVEL FRAME" to the name of your game
 		final JFrame frame = new JFrame("Exam Time");
-		frame.setLocation(300, 300);
+		frame.setLocation(200, 200);
 
 		// Main playing area
 		final GameCourt court = new GameCourt();
 		frame.add(court, BorderLayout.CENTER);
 
-		// Reset button
+		// TOP PANEL
 		final JPanel control_panel = new JPanel();
-		frame.add(control_panel, BorderLayout.NORTH);
-
-		// Note here that when we add an action listener to the reset
-		// button, we define it as an anonymous inner class that is
-		// an instance of ActionListener with its actionPerformed()
-		// method overridden. When the button is pressed,
-		// actionPerformed() will be called.
-		final JButton reset = new JButton("Quit");
-		reset.addActionListener(new ActionListener() {
+		BorderLayout top = new BorderLayout();
+		top.setHgap(50);
+		control_panel.setLayout(top);
+		frame.add(control_panel, "North");
+		
+		//title
+		final JLabel title = new JLabel("Exam Crunch");
+		title.setHorizontalAlignment(SwingConstants.CENTER);
+		control_panel.add(title, "West");
+		
+		/*score label
+		final JLabel score = new JLabel("$");
+		control_panel.add(score, "Center");
+		*/
+		
+		//score count
+		final JLabel scoreCnt = new JLabel("$ 0");
+		scoreCnt.setBorder(BorderFactory.createLineBorder(Color.black));
+		control_panel.add(scoreCnt, "Center");
+		
+		// quit button
+		final JButton quit = new JButton("Quit");
+		quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				court.quit();
 			}
 		});
-		control_panel.add(reset);
+		control_panel.add(quit, "East");
 
+		
+		// INGREDIENT BUTTONS
+		final Graphics g = frame.getGraphics();
+		final JPanel ingredients = new JPanel(new GridLayout(3,4));
+		frame.add(ingredients, BorderLayout.SOUTH);
+		
+		//NORMAL MUG
+		ImageIcon normImg = new ImageIcon("normalcup.png");
+		final JButton normCupButton = new JButton("10", normImg);
+		normCupButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				court.cupStd(g);
+			}
+		});
+		ingredients.add(normCupButton);
+		
+		//TALL MUG
+		ImageIcon toGoCupImg = new ImageIcon("normalcup.png");
+		final JButton toGoCupButton = new JButton("10", toGoCupImg);
+		toGoCupButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				court.cupStd(g);
+			}
+		});
+		ingredients.add(toGoCupButton);
+		
+		//SHORT MUG
+		ImageIcon shortCupImg = new ImageIcon("normalcup.png");
+		final JButton shortCupButton = new JButton("10", shortCupImg);
+		shortCupButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				court.cupStd(g);
+			}
+		});
+		ingredients.add(shortCupButton);
+		
+		//COFFEE BEANS 
+		ImageIcon coffeeBeanImg = new ImageIcon("coffeebean.jpg");
+		final JButton coffeeBeanButton = new JButton("10", coffeeBeanImg);
+		coffeeBeanButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				court.cupStd(g);
+			}
+		});
+		ingredients.add(coffeeBeanButton);
+
+		
+		
+		
 		// Put the frame on the screen
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

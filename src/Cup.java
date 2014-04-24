@@ -6,10 +6,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Cup extends GameObj {
-	public static final String img_file = "coffeecup.jpg";
+	public static final String img_file = "normalcup.png";
 	public static final int SIZE = 40;
-	public static final int INIT_X = 130;
-	public static final int INIT_Y = 130;
+	public static final int INIT_X = 50;
+	public static final int INIT_Y = 50;
 	public static final int INIT_VEL_X = 0;
 	public static final int INIT_VEL_Y = 0;
 

@@ -27,8 +27,8 @@ public class GameCourt extends JPanel {
 	public boolean playing = false; // whether the game is running
 
 	// Game constants
-	public static final int COURT_WIDTH = 300;
-	public static final int COURT_HEIGHT = 300;
+	public static final int COURT_WIDTH = 1000;
+	public static final int COURT_HEIGHT = 1000;
 	public static final int SQUARE_VELOCITY = 4;
 	// Update interval for timer, in milliseconds
 	public static final int INTERVAL = 35;
@@ -55,28 +55,6 @@ public class GameCourt extends JPanel {
 		// events will be handled by its key listener.
 		setFocusable(true);
 
-		// This key listener allows the square to move as long
-		// as an arrow key is pressed, by changing the square's
-		// velocity accordingly. (The tick method below actually
-		// moves the square.)
-		addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_LEFT)
-					square.v_x = -SQUARE_VELOCITY;
-				else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-					square.v_x = SQUARE_VELOCITY;
-				else if (e.getKeyCode() == KeyEvent.VK_DOWN)
-					square.v_y = SQUARE_VELOCITY;
-				else if (e.getKeyCode() == KeyEvent.VK_UP)
-					square.v_y = -SQUARE_VELOCITY;
-			}
-
-			public void keyReleased(KeyEvent e) {
-				square.v_x = 0;
-				square.v_y = 0;
-			}
-		});
-
 	}
 
 	/**
@@ -85,9 +63,7 @@ public class GameCourt extends JPanel {
 	public void reset() {
 
 		square = new Square(COURT_WIDTH, COURT_HEIGHT);
-		cup = new Cup(COURT_WIDTH, COURT_HEIGHT);
-
-		playing = true;
+		cup = new Cup(50, 50);
 
 		// Make sure that this component has the keyboard focus
 		requestFocusInWindow();
@@ -96,6 +72,33 @@ public class GameCourt extends JPanel {
 	public void quit() {
 		System.exit(0);
 	}
+	
+	//INGREDIENT BUTTONS
+	public void cupStd(Graphics g) {
+		//cup = new Cup(10, 10);
+		//displayArea(cup, g);
+		// Make sure that this component has the keyboard focus
+		requestFocusInWindow();
+	}
+	
+	
+	// put in ingredients area
+	public void displayArea(GameObj a, Graphics g) {
+		a.draw(g);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * This method is called every time the timer defined in the constructor
@@ -116,7 +119,7 @@ public class GameCourt extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		square.draw(g);
-		cup.draw(g);
+		//cup.draw(g);
 
 	}
 
