@@ -60,13 +60,13 @@ public class Game implements Runnable {
 		// BOTTOM PANEL
 		final Graphics g = frame.getGraphics();
 		final JPanel bottom = new JPanel(new BorderLayout());
-		bottom.setSize(1000, 500);
+		bottom.setPreferredSize(new Dimension(1000, 300));
 		frame.add(bottom, BorderLayout.SOUTH);
 		
 		
 		// INGREDIENT BUTTONS
-		final JPanel ingredients = new JPanel(new GridLayout(3,3));
-		ingredients.setSize(500, 300);
+		final JPanel ingredients = new JPanel(new GridLayout(3, 4, 10, 10));
+		ingredients.setPreferredSize(new Dimension(500, 300));
 		bottom.add(ingredients, BorderLayout.WEST);
 		
 		
@@ -75,9 +75,10 @@ public class Game implements Runnable {
 		final JButton normCupButton = new JButton("10", normImg);
 		normCupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				court.cupStd(g);
+				court.ingredient(g);
 			}
 		});
+		//normCupButton.setPreferredSize(new Dimension(10,10));
 		ingredients.add(normCupButton);
 		
 		//TALL MUG
@@ -85,9 +86,10 @@ public class Game implements Runnable {
 		final JButton toGoCupButton = new JButton("10", toGoCupImg);
 		toGoCupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				court.cupStd(g);
+				court.ingredient(g);
 			}
 		});
+		//toGoCupButton.setPreferredSize(new Dimension(10,10));
 		ingredients.add(toGoCupButton);
 		
 		//SHORT MUG
@@ -95,7 +97,7 @@ public class Game implements Runnable {
 		final JButton shortCupButton = new JButton("10", shortCupImg);
 		shortCupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				court.cupStd(g);
+				court.ingredient(g);
 			}
 		});
 		ingredients.add(shortCupButton);
@@ -105,7 +107,7 @@ public class Game implements Runnable {
 		final JButton coffeeBeanButton = new JButton("10", coffeeBeanImg);
 		coffeeBeanButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				court.cupStd(g);
+				court.ingredient(g);
 			}
 		});
 		ingredients.add(coffeeBeanButton);
@@ -116,23 +118,56 @@ public class Game implements Runnable {
 		final JButton chocButton = new JButton("10", chocImg);
 		chocButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				court.cupStd(g);
+				court.ingredient(g);
 			}
 		});
 		ingredients.add(chocButton);
 		
 		
-		//CHOCOLATE 
+		//ICE
 		ImageIcon iceImg = new ImageIcon("coffeecup.jpg");
 		final JButton iceButton = new JButton("10", iceImg);
 		iceButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				court.cupStd(g);
+				court.ingredient(g);
 			}
 		});
 		ingredients.add(iceButton);
+		
+		
+		//MILK
+		ImageIcon milkImg = new ImageIcon("coffeecup.jpg");
+		final JButton milkButton = new JButton("10", milkImg);
+		milkButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				court.ingredient(g);
+			}
+		});
+		ingredients.add(milkButton);
+		
+		//SYRUP
+		ImageIcon syrupImg = new ImageIcon("coffeecup.jpg");
+		final JButton syrupButton = new JButton("10", syrupImg);
+		syrupButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				court.ingredient(g);
+			}
+		});
+		ingredients.add(syrupButton);
 
 		
+		//CREATION AREA
+		final JPanel creationArea = new JPanel(new GridLayout(2, 3, 10, 10));
+		creationArea.setPreferredSize(new Dimension(300, 300));
+		creationArea.setBorder(BorderFactory.createLineBorder(Color.black));
+		bottom.add(creationArea, BorderLayout.CENTER);
+		
+		//RECIPE AND PHONE
+		final JPanel interactionArea = new JPanel(new GridLayout(2, 1, 0, 30));
+		interactionArea.setPreferredSize(new Dimension(200, 300));
+		interactionArea.setBorder(BorderFactory.createLineBorder(Color.black));
+		bottom.add(creationArea, BorderLayout.EAST);
+	    
 		
 		
 		// Put the frame on the screen

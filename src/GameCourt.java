@@ -71,7 +71,7 @@ public class GameCourt extends JPanel {
 	}
 	
 	//INGREDIENT BUTTONS
-	public void cupStd(Graphics g) {
+	public void ingredient(Graphics g) {
 		//cup = new Cup(10, 10);
 		//displayArea(cup, g);
 		// Make sure that this component has the keyboard focus
