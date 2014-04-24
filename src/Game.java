@@ -19,16 +19,18 @@ public class Game implements Runnable {
 		final JFrame frame = new JFrame("Exam Time");
 		frame.setLocation(200, 200);
 
+
 		// Main playing area
 		final GameCourt court = new GameCourt();
 		frame.add(court, BorderLayout.CENTER);
-
+		
+		
 		// TOP PANEL
 		final JPanel control_panel = new JPanel();
 		BorderLayout top = new BorderLayout();
 		top.setHgap(50);
 		control_panel.setLayout(top);
-		frame.add(control_panel, "North");
+		frame.add(control_panel, BorderLayout.NORTH);
 		
 		//title
 		final JLabel title = new JLabel("Exam Crunch");
@@ -55,13 +57,21 @@ public class Game implements Runnable {
 		control_panel.add(quit, "East");
 
 		
-		// INGREDIENT BUTTONS
+		// BOTTOM PANEL
 		final Graphics g = frame.getGraphics();
-		final JPanel ingredients = new JPanel(new GridLayout(3,4));
-		frame.add(ingredients, BorderLayout.SOUTH);
+		final JPanel bottom = new JPanel(new BorderLayout());
+		bottom.setSize(1000, 500);
+		frame.add(bottom, BorderLayout.SOUTH);
+		
+		
+		// INGREDIENT BUTTONS
+		final JPanel ingredients = new JPanel(new GridLayout(3,3));
+		ingredients.setSize(500, 300);
+		bottom.add(ingredients, BorderLayout.WEST);
+		
 		
 		//NORMAL MUG
-		ImageIcon normImg = new ImageIcon("normalcup.png");
+		ImageIcon normImg = new ImageIcon("coffeecup.jpg");
 		final JButton normCupButton = new JButton("10", normImg);
 		normCupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -71,7 +81,7 @@ public class Game implements Runnable {
 		ingredients.add(normCupButton);
 		
 		//TALL MUG
-		ImageIcon toGoCupImg = new ImageIcon("normalcup.png");
+		ImageIcon toGoCupImg = new ImageIcon("coffeecup.jpg");
 		final JButton toGoCupButton = new JButton("10", toGoCupImg);
 		toGoCupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -81,7 +91,7 @@ public class Game implements Runnable {
 		ingredients.add(toGoCupButton);
 		
 		//SHORT MUG
-		ImageIcon shortCupImg = new ImageIcon("normalcup.png");
+		ImageIcon shortCupImg = new ImageIcon("coffeecup.jpg");
 		final JButton shortCupButton = new JButton("10", shortCupImg);
 		shortCupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -91,7 +101,7 @@ public class Game implements Runnable {
 		ingredients.add(shortCupButton);
 		
 		//COFFEE BEANS 
-		ImageIcon coffeeBeanImg = new ImageIcon("coffeebean.jpg");
+		ImageIcon coffeeBeanImg = new ImageIcon("coffeecup.jpg");
 		final JButton coffeeBeanButton = new JButton("10", coffeeBeanImg);
 		coffeeBeanButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -99,6 +109,28 @@ public class Game implements Runnable {
 			}
 		});
 		ingredients.add(coffeeBeanButton);
+		
+		
+		//CHOCOLATE 
+		ImageIcon chocImg = new ImageIcon("coffeecup.jpg");
+		final JButton chocButton = new JButton("10", chocImg);
+		chocButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				court.cupStd(g);
+			}
+		});
+		ingredients.add(chocButton);
+		
+		
+		//CHOCOLATE 
+		ImageIcon iceImg = new ImageIcon("coffeecup.jpg");
+		final JButton iceButton = new JButton("10", iceImg);
+		iceButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				court.cupStd(g);
+			}
+		});
+		ingredients.add(iceButton);
 
 		
 		

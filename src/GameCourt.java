@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class GameCourt extends JPanel {
 
 	// the state of the game logic
-	private Square square; // the Black Square, keyboard control
 	private Cup cup;
 
 	public boolean playing = false; // whether the game is running
@@ -62,8 +61,6 @@ public class GameCourt extends JPanel {
 	 */
 	public void reset() {
 
-		square = new Square(COURT_WIDTH, COURT_HEIGHT);
-		cup = new Cup(50, 50);
 
 		// Make sure that this component has the keyboard focus
 		requestFocusInWindow();
@@ -108,7 +105,7 @@ public class GameCourt extends JPanel {
 		if (playing) {
 			// advance the square and snitch in their
 			// current direction.
-			square.move();
+			//square.move();
 
 			// update the display
 			repaint();
@@ -118,7 +115,7 @@ public class GameCourt extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		square.draw(g);
+		//square.draw(g);
 		//cup.draw(g);
 
 	}
