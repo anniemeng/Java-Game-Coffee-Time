@@ -20,8 +20,9 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class GameCourt extends JPanel {
 
+	private Conveyor conveyor;
+	
 	// the state of the game logic
-	private Cup cup;
 
 	public boolean playing = false; // whether the game is running
 
@@ -61,7 +62,7 @@ public class GameCourt extends JPanel {
 	 */
 	public void reset() {
 
-
+		conveyor = new Conveyor(COURT_WIDTH, COURT_HEIGHT);
 		// Make sure that this component has the keyboard focus
 		requestFocusInWindow();
 	}
@@ -69,32 +70,6 @@ public class GameCourt extends JPanel {
 	public void quit() {
 		System.exit(0);
 	}
-	
-	//INGREDIENT BUTTONS
-	public void ingredient(Graphics g) {
-		//cup = new Cup(10, 10);
-		//displayArea(cup, g);
-		// Make sure that this component has the keyboard focus
-		requestFocusInWindow();
-	}
-	
-	
-	// put in ingredients area
-	public void displayArea(GameObj a, Graphics g) {
-		a.draw(g);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
 	/**
@@ -115,8 +90,7 @@ public class GameCourt extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//square.draw(g);
-		//cup.draw(g);
+		conveyor.draw(g);
 
 	}
 
