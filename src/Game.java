@@ -30,11 +30,9 @@ public class Game implements Runnable {
 	ArrayList<JLabel> ingredientArea = new ArrayList<JLabel>();
 	ArrayList<JButton> areaButtons = new ArrayList<JButton>();
 	Set<String> submitted = null;
-	TreeMap<JButton, String> buttonIds = new TreeMap<JButton, String>();
-	
-	
-	//compare this set to a map that links an image to a set
-	
+	TreeMap<String, JButton> buttonIds = new TreeMap<String, JButton>();
+	TreeMap<Image, Set<String>> output = Output.getOutput();
+
 	//METHODS TO MANIPULATE ARRAYLIST
 	public void addIngredient(JPanel current, JFrame frame, Image img, JButton button) {
 		areaButtons.add(button);
@@ -57,7 +55,7 @@ public class Game implements Runnable {
 
 	}
 	
-	
+	//if clear button clicked
 	public void canvasClear(JPanel current, JFrame frame) {
 		//reset counter of buttons
 		for (int i = 0; i < areaButtons.size(); i++) {
@@ -72,8 +70,18 @@ public class Game implements Runnable {
 		frame.setVisible(true);
 	}
 	
+	//if create button clicked
 	public void canvasSubmit() {
-		
+		for (int i = 0; i < areaButtons.size(); i++) {
+			// find id associated with button
+			if (buttonIds.containsValue(areaButtons.get(i))) {
+				String id = (String) buttonIds.keySet().toArray()[0];
+						
+						buttonIds.get(areaButtons.get(i));
+				//add id to set
+				submitted.add(id);
+			}
+		}
 	}
 	
 
@@ -193,6 +201,9 @@ public class Game implements Runnable {
 
 			}
 		});
+		//add to treemap
+		buttonIds.put(normCupButton, "mug");
+		
 		ingredients.add(normCupButton);
 		
 		//TALL MUG
@@ -214,6 +225,9 @@ public class Game implements Runnable {
 				}
 			}
 		});
+		//add to treemap
+		buttonIds.put(toGoCupButton, "togo");
+		
 		ingredients.add(toGoCupButton);
 		
 		//SHORT MUG
@@ -236,6 +250,9 @@ public class Game implements Runnable {
 				}
 			}
 		});
+		//add to treemap
+		buttonIds.put(shortCupButton, "espresso");
+		
 		ingredients.add(shortCupButton);
 		
 		//COFFEE BEANS 
@@ -246,6 +263,9 @@ public class Game implements Runnable {
 				addIngredient(creationTop, frame, "coffeecup.jpg");
 			}
 		});
+		//add to treemap
+		buttonIds.put(coffeeBeanButton, "bean");
+		
 		ingredients.add(coffeeBeanButton);
 		
 		
@@ -257,6 +277,9 @@ public class Game implements Runnable {
 				addIngredient(creationTop, frame, "coffeecup.jpg");
 			}
 		});
+		//add to treemap
+		buttonIds.put(chocButton, "chocolate");
+		
 		ingredients.add(chocButton);
 		
 		
@@ -268,6 +291,9 @@ public class Game implements Runnable {
 				addIngredient(creationTop, frame, "coffeecup.jpg");
 			}
 		});
+		//add to treemap
+		buttonIds.put(iceButton, "ice");
+		
 		ingredients.add(iceButton);
 		
 		
@@ -279,6 +305,9 @@ public class Game implements Runnable {
 				addIngredient(creationTop, frame, "coffeecup.jpg");
 			}
 		});
+		//add to treemap
+		buttonIds.put(milkButton, "milk");
+		
 		ingredients.add(milkButton);
 		
 		//SYRUP
@@ -289,6 +318,9 @@ public class Game implements Runnable {
 				addIngredient(creationTop, frame, "coffeecup.jpg");
 			}
 		});
+		//add to treemap
+		buttonIds.put(syrupButton, "syrup");
+		
 		ingredients.add(syrupButton);
 		
 		//TEA
@@ -299,6 +331,9 @@ public class Game implements Runnable {
 				addIngredient(creationTop, frame, "coffeecup.jpg");
 			}
 		});
+		//add to treemap
+		buttonIds.put(teaButton, "tea");
+		
 		ingredients.add(teaButton);
 		
 		//WHIPPED CREAM
@@ -309,6 +344,9 @@ public class Game implements Runnable {
 				addIngredient(creationTop, frame, "coffeecup.jpg");
 			}
 		});
+		//add to treemap
+		buttonIds.put(creamButton, "cream");
+		
 		ingredients.add(creamButton);
 		
 		//CINNAMON 
@@ -319,6 +357,9 @@ public class Game implements Runnable {
 				addIngredient(creationTop, frame, "coffeecup.jpg");
 			}
 		});
+		//add to treemap
+		buttonIds.put(cinnaButton, "cinnamon");
+		
 		ingredients.add(cinnaButton);
 		
 
@@ -331,6 +372,9 @@ public class Game implements Runnable {
 				addIngredient(creationTop, frame, "coffeecup.jpg");
 			}
 		});
+		//add to treemap
+		buttonIds.put(vanillaButton, "vanilla");
+		
 		ingredients.add(vanillaButton);	
 		
 
