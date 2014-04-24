@@ -202,7 +202,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put(normCupButton, "mug");
+		buttonIds.put("mug", normCupButton);
 		
 		ingredients.add(normCupButton);
 		
@@ -226,7 +226,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put(toGoCupButton, "togo");
+		buttonIds.put("togo", toGoCupButton);
 		
 		ingredients.add(toGoCupButton);
 		
@@ -251,7 +251,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put(shortCupButton, "espresso");
+		buttonIds.put("espresso", shortCupButton);
 		
 		ingredients.add(shortCupButton);
 		
@@ -264,7 +264,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put(coffeeBeanButton, "bean");
+		buttonIds.put("bean", coffeeBeanButton);
 		
 		ingredients.add(coffeeBeanButton);
 		
@@ -278,7 +278,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put(chocButton, "chocolate");
+		buttonIds.put("chocolate", chocButton);
 		
 		ingredients.add(chocButton);
 		
@@ -292,7 +292,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put(iceButton, "ice");
+		buttonIds.put("ice",iceButton);
 		
 		ingredients.add(iceButton);
 		
@@ -306,7 +306,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put(milkButton, "milk");
+		buttonIds.put("milk", milkButton);
 		
 		ingredients.add(milkButton);
 		
@@ -319,7 +319,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put(syrupButton, "syrup");
+		buttonIds.put("syrup", syrupButton);
 		
 		ingredients.add(syrupButton);
 		
@@ -332,7 +332,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put(teaButton, "tea");
+		buttonIds.put("tea", teaButton);
 		
 		ingredients.add(teaButton);
 		
@@ -345,7 +345,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put(creamButton, "cream");
+		buttonIds.put("cream", creamButton);
 		
 		ingredients.add(creamButton);
 		
@@ -358,7 +358,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put(cinnaButton, "cinnamon");
+		buttonIds.put("cinnamon", cinnaButton);
 		
 		ingredients.add(cinnaButton);
 		
@@ -373,7 +373,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put(vanillaButton, "vanilla");
+		buttonIds.put( "vanilla", vanillaButton);
 		
 		ingredients.add(vanillaButton);	
 		
