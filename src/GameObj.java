@@ -144,12 +144,12 @@ public class GameObj {
 	 *  
 	 * @return direction of impending wall, null if all clear.
 	 */
-	public Direction hitWall() {
+	public boolean hitWall() {
 		if (pos_x + v_x < 0)
-			return Direction.LEFT;
+			return true;
 		else if (pos_x + v_x > max_x)
-			return Direction.RIGHT;
-		else return null;
+			return true;
+		else return false;
 	}
 
 	/** Determine whether the game object will hit another 

@@ -73,7 +73,6 @@ public class Game implements Runnable {
 			ConveyorItem test = new ConveyorItem(GameCourt.COURT_HEIGHT, GameCourt.COURT_WIDTH, "coffeecup.png");
 			court.addToConveyor(test);
 			court.repaint();
-
 			frame.setVisible(true);
 			System.out.println("true");
 		}

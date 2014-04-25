@@ -83,15 +83,15 @@ public class GameCourt extends JPanel {
 	 */
 	void tick() {
 		if (playing) {
-			// advance the square and snitch in their
-			// current direction.
-			//square.move();
 
 			// update the display
 			if (!onConveyor.isEmpty()) {
 				for (int i = 0; i < onConveyor.size(); i++) {
 					onConveyor.get(i).move();
-					onConveyor.get(i).bounce(onConveyor.get(i).hitWall());
+					boolean wall = onConveyor.get(i).hitWall();
+					if (wall) {
+						onConveyor.remove(i); 
+					}
 				}
 			}
 			
