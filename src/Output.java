@@ -2,7 +2,6 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -13,9 +12,9 @@ import javax.imageio.ImageIO;
 public class Output {
 	
 	//ONE word associated with String 
-	private static HashMap<HashSet<String>, String> recipes = new HashMap<HashSet<String>, String>();
-	static HashSet<String> coffeeRecipe = new HashSet<String>();
-	public static HashMap<HashSet<String>, String> getString() {
+	private static HashMap<TreeSet<String>, String> recipes = new HashMap<TreeSet<String>, String>();
+	static TreeSet<String> coffeeRecipe = new TreeSet<String>();
+	public static HashMap<TreeSet<String>, String> getString() {
 		return recipes;
 	}
 	
