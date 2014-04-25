@@ -28,12 +28,12 @@ public class Game implements Runnable {
 	//DATA STRUCTURE TO STORE INGREDIENTS APPEARING IN CREATION AREA
 	//ARRAYLIST
 
-	ArrayList<JLabel> ingredientArea = new ArrayList<JLabel>();
-	ArrayList<JButton> areaButtons = new ArrayList<JButton>();
-	TreeSet<String> submitted = new TreeSet<String>();
-	TreeMap<String, Image> output = Output.getImage();
-	HashMap<TreeSet<String>, String> recipes = Output.getString();
-
+	private ArrayList<JLabel> ingredientArea = new ArrayList<JLabel>();
+	private ArrayList<JButton> areaButtons = new ArrayList<JButton>();
+	private TreeSet<String> submitted = new TreeSet<String>();
+	private TreeMap<String, Image> output = Output.getImage();
+	private static HashMap<TreeSet<String>, String> recipeBook = new HashMap<TreeSet<String>, String>();
+	
 	//METHODS TO MANIPULATE ARRAYLIST
 	public void addIngredient(JPanel current, JFrame frame, Image img, JButton button, String name) {
 		submitted.add(name);
@@ -72,11 +72,15 @@ public class Game implements Runnable {
 		frame.setVisible(true);
 	}
 	
+	//TEST
+	static TreeSet<String> coffeeRecipe = new TreeSet<String>();
+	
+	
 	//if create button clicked
 	public void canvasSubmit() {
-
-		if (recipes.containsKey(submitted) ) {
-			String nameDrink = recipes.get(submitted);
+				
+		if (recipeBook.containsKey(submitted)) {
+			String nameDrink = recipeBook.get(submitted);
 			Image now = output.get(nameDrink);
 			System.out.println("true");
 		}
@@ -414,6 +418,17 @@ public class Game implements Runnable {
 	 * this in the final submission of your game.
 	 */
 	public static void main(String[] args) {
+		
+		//INITIALIZE RECIPES
+		String[] coffeeList = {"mug", "bean"};
+		Recipes coffee = new Recipes(coffeeList);
+		recipeBook.put(coffee, "coffee");
+		
+		
+		
+
+		
+	
 		SwingUtilities.invokeLater(new Game());
 	}
 }
