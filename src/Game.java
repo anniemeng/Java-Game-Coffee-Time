@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -30,9 +31,9 @@ public class Game implements Runnable {
 
 	ArrayList<JLabel> ingredientArea = new ArrayList<JLabel>();
 	ArrayList<JButton> areaButtons = new ArrayList<JButton>();
-	TreeSet<String> submitted = new TreeSet<String>();
+	HashSet<String> submitted = new HashSet<String>();
 	TreeMap<String, Image> output = Output.getImage();
-	HashMap<TreeSet<String>, String> recipes = Output.getString();
+	HashMap<HashSet<String>, String> recipes = Output.getString();
 
 	//METHODS TO MANIPULATE ARRAYLIST
 	public void addIngredient(JPanel current, JFrame frame, Image img, JButton button, String name) {
@@ -74,7 +75,6 @@ public class Game implements Runnable {
 	
 	//if create button clicked
 	public void canvasSubmit() {
-
 		if (recipes.containsKey(submitted) ) {
 			String nameDrink = recipes.get(submitted);
 			Image now = output.get(nameDrink);
