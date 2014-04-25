@@ -6,22 +6,22 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class ConveyorItem extends GameObj {
-	public static String img_file = "";
-	public static final int sizeX = 70;
-	public static final int sizeY = 70;
+public class Customers extends GameObj {
+	public static String img_file = "student.jpg";
+	public static final int sizeX = 200;
+	public static final int sizeY = 250;
 	public static final int INIT_X = 0;
-	public static final int INIT_Y = 280;
-	public static final int INIT_VEL_X = 3;
+	public static final int INIT_Y = 0;
+	public static final int INIT_VEL_X = 0;
 	public static final int INIT_VEL_Y = 0;
 
 	private static BufferedImage img;
 
-	public ConveyorItem (int courtWidth, int courtHeight, String pic) {
+	public Customers (int courtWidth, int courtHeight) {
 		super(INIT_VEL_X, INIT_VEL_Y, INIT_X, INIT_Y, sizeX, sizeY, courtWidth,
 				courtHeight);
 		try {
-			img_file = pic;
+
 			if (img == null) {
 				img = ImageIO.read(new File(img_file));
 			}

@@ -124,20 +124,6 @@ public class GameObj {
 				&& next_obj_y + obj.height >= next_y);
 	}
 
-	
-	/** Update the velocity of the object in response to hitting
-	 *  an obstacle in the given direction. If the direction is
-	 *  null, this method has no effect on the object. */
-	public void bounce(Direction d) {
-		if (d == null) return;
-		switch (d) {
-		case UP:    v_y = Math.abs(v_y); break;  
-		case DOWN:  v_y = -Math.abs(v_y); break;
-		case LEFT:  v_x = Math.abs(v_x); break;
-		case RIGHT: v_x = -Math.abs(v_x); break;
-		}
-	}
-	
 	/** Determine whether the game object will hit a 
 	 *  wall in the next time step. If so, return the direction
 	 *  of the wall in relation to this game object.
@@ -152,39 +138,6 @@ public class GameObj {
 		else return false;
 	}
 
-	/** Determine whether the game object will hit another 
-	 *  object in the next time step. If so, return the direction
-	 *  of the other object in relation to this game object.
-	 *  
-	 * @return direction of impending object, null if all clear.
-	 */
-	public Direction hitObj(GameObj other) {
-
-		if (this.willIntersect(other)) {
-			double dx = other.pos_x + other.width /2 - (pos_x + width /2);
-			double dy = other.pos_y + other.height/2 - (pos_y + height/2);
-
-			double theta = Math.acos(dx / (Math.sqrt(dx * dx + dy *dy)));
-			double diagTheta = Math.atan2(height / 2, width / 2);
-
-   if (theta <= diagTheta ) {
-     return Direction.RIGHT;
-   } else if ( theta > diagTheta && theta <= Math.PI - diagTheta ) {
-     if ( dy > 0 ) {
-       // Coordinate system for GUIs is switched
-       return Direction.DOWN;
-     } else {
-       return Direction.UP;
-     }
-   } else {
-     return Direction.LEFT;
-   }
-		} else {
-			return null;
-		}
-
-	}
-	
 	/**
 	 * Default draw method that provides how the object should be drawn 
 	 * in the GUI. This method does not draw anything. Subclass should 

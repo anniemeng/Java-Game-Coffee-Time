@@ -70,7 +70,7 @@ public class Game implements Runnable {
 		if (recipes.containsKey(submitted)) {
 			String nameDrink = recipes.get(submitted);
 			String now = output.get(nameDrink);
-			ConveyorItem test = new ConveyorItem(GameCourt.COURT_HEIGHT, GameCourt.COURT_WIDTH, "coffeecup.png");
+			ConveyorItem test = new ConveyorItem(GameCourt.COURT_HEIGHT, GameCourt.COURT_WIDTH, now);
 			court.addToConveyor(test);
 			court.repaint();
 			frame.setVisible(true);
@@ -80,7 +80,7 @@ public class Game implements Runnable {
 		
 		canvasClear();
 	}
-	final GameCourt court = new GameCourt();
+	final static GameCourt court = new GameCourt();
 
 	public void run() {
 
@@ -436,12 +436,13 @@ public class Game implements Runnable {
 		
 		//INITIALIZE IMAGE OUTPUTS
 		Output outputImgs = new Output();
-		outputImgs.setOutput("coffee", "coffeecup.png");
+		outputImgs.setOutput("coffee", "coffee.png");
 		
 		//change Output to TreeMap
 		output = outputImgs.getOutput();
 
-		
+		//INITIALIZE CUSTOMERS
+		court.addToCustomers();
 	
 		SwingUtilities.invokeLater(new Game());
 	}

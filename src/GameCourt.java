@@ -22,9 +22,15 @@ public class GameCourt extends JPanel {
 
 	private Conveyor conveyor;
 	private ArrayList<ConveyorItem> onConveyor = new ArrayList<ConveyorItem>();
+	private ArrayList<Customers> customerList = new ArrayList<Customers>();
 	
 	public void addToConveyor(ConveyorItem current) {
 		onConveyor.add(current);
+	}
+	
+	public void addToCustomers() {
+		Customers a = new Customers(COURT_WIDTH, COURT_HEIGHT);
+		customerList.add(a);
 	}
 	
 	// the state of the game logic
@@ -104,12 +110,18 @@ public class GameCourt extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		conveyor.draw(g);
+		if (!customerList.isEmpty()) {
+			for (int i = 0; i < customerList.size(); i++) {
+				customerList.get(i).draw(g);
+			}
+		}
 		
 		if (!onConveyor.isEmpty()) {
 			for (int i = 0; i < onConveyor.size(); i++) {
 				onConveyor.get(i).draw(g);
 			}
 		}
+		
 
 	}
 

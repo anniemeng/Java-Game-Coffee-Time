@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Conveyor extends GameObj {
-	public static final String img_file = "conveyor.png";
+	public static final String img_file = "newconveyor.png";
 	public static final int sizeX = 1000;
 	public static final int sizeY = 100;
 	public static final int INIT_X = 0;
