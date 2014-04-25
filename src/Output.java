@@ -11,35 +11,26 @@ import javax.imageio.ImageIO;
 
 public class Output {
 	
-	//ONE word associated with String 
-	private static HashMap<TreeSet<String>, String> recipes = new HashMap<TreeSet<String>, String>();
-	static TreeSet<String> coffeeRecipe = new TreeSet<String>();
-	public static HashMap<TreeSet<String>, String> getString() {
-		return recipes;
+	private String name;
+	private Image img;
+	private TreeMap<String, Image> output;
+
+	public Output() {
+		output = new TreeMap<String, Image>();
 	}
 	
-	
-	//get image with ONE word
-	private static TreeMap<String, Image> output = new TreeMap<String, Image>();
-	static String coffee = "coffee";
-	public static TreeMap<String,Image> getImage() {
+	public TreeMap<String,Image> getOutput() {
 		return output;
 	}
 	
-	public static void main (String[] args) throws IOException {
-		//RECIPES
-		coffeeRecipe.add("mug");
-		coffeeRecipe.add("bean");
-		recipes.put(coffeeRecipe, coffee);
+	public void setOutput(String name, String file) throws IOException {
+		this.name = name;
+
+		Image temp = ImageIO.read(new File (file));
+		img = temp.getScaledInstance(40, 50, 0);
+		output.put(name,img);
 		
-		//LINK RECIPE TO IMAGE
-		Image c = ImageIO.read(new File ("coffeecup.png"));
-		c = c.getScaledInstance(40, 50, 0);
-		output.put(coffee,c);
 	}
 	
-	
-	
-	
-	
+
 }

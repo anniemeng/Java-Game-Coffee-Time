@@ -31,8 +31,11 @@ public class Game implements Runnable {
 	private ArrayList<JLabel> ingredientArea = new ArrayList<JLabel>();
 	private ArrayList<JButton> areaButtons = new ArrayList<JButton>();
 	private TreeSet<String> submitted = new TreeSet<String>();
-	private TreeMap<String, Image> output = Output.getImage();
-	private static HashMap<TreeSet<String>, String> recipeBook = new HashMap<TreeSet<String>, String>();
+	
+	private static HashMap<TreeSet<String>, String> recipes;
+	private static TreeMap<String, Image> output;
+	private JPanel topPanelChange;
+	private final JFrame frame = new JFrame("Study Break");;
 	
 	//METHODS TO MANIPULATE ARRAYLIST
 	public void addIngredient(JPanel current, JFrame frame, Image img, JButton button, String name) {
@@ -58,17 +61,12 @@ public class Game implements Runnable {
 	}
 	
 	//if clear button clicked
-	public void canvasClear(JPanel current, JFrame frame) {
-		//reset counter of buttons
-		for (int i = 0; i < areaButtons.size(); i++) {
-			int label = Integer.parseInt(areaButtons.get(i).getText());
-			areaButtons.get(i).setText("" + (label + 1));
-		}
+	public void canvasClear() {
 		submitted.clear();
 		ingredientArea.clear();
 		areaButtons.clear();
-		current.removeAll();
-		current.repaint();
+		topPanelChange.removeAll();
+		topPanelChange.repaint();
 		frame.setVisible(true);
 	}
 	
@@ -79,19 +77,20 @@ public class Game implements Runnable {
 	//if create button clicked
 	public void canvasSubmit() {
 				
-		if (recipeBook.containsKey(submitted)) {
-			String nameDrink = recipeBook.get(submitted);
-			Image now = output.get(nameDrink);
+		if (recipes.containsKey(submitted)) {
+			String nameDrink = recipes.get(submitted);
+			//Image now = output.get(nameDrink);
 			System.out.println("true");
 		}
 		else System.out.println("false");
+		
+		canvasClear();
 	}
 	
 
 	public void run() {
 
 		// Top-level frame in which game components live
-		final JFrame frame = new JFrame("Study Break");
 		frame.setLocation(200, 200);
 
 		// Main playing area
@@ -157,6 +156,7 @@ public class Game implements Runnable {
 		
 		//CREATION AREA DISPLAY
 		final JPanel creationTop = new JPanel();
+		topPanelChange = creationTop;
 		creationTop.setBorder(BorderFactory.createLineBorder(Color.black));
 		creationTop.setLayout(new FlowLayout()); 
 		creationArea.add(creationTop, BorderLayout.CENTER);
@@ -175,7 +175,12 @@ public class Game implements Runnable {
 		final JButton clearButton = new JButton("X");
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				canvasClear(creationTop, frame);
+				//reset counter of buttons
+				for (int i = 0; i < areaButtons.size(); i++) {
+					int label = Integer.parseInt(areaButtons.get(i).getText());
+					areaButtons.get(i).setText("" + (label + 1));
+				}
+				canvasClear();
 			}
 		});
 		creationButtons.add(clearButton);
@@ -420,12 +425,26 @@ public class Game implements Runnable {
 	public static void main(String[] args) {
 		
 		//INITIALIZE RECIPES
+		//create new book
+		Recipes recipeBook = new Recipes();
+		
+		//adding recipes
 		String[] coffeeList = {"mug", "bean"};
-		Recipes coffee = new Recipes(coffeeList);
-		recipeBook.put(coffee, "coffee");
+		recipeBook.setRecipes(coffeeList, "coffee");
 		
+		String[] espressoList = {"espresso", "bean"};
+		recipeBook.setRecipes(espressoList, "espresso");
 		
+
 		
+		//change Recipes to HashMap
+		recipes = recipeBook.getBook();
+		
+		//INITIALIZE IMAGE OUTPUTS
+		Output outputImgs = new Output();
+		
+		//change Output to TreeMap
+		output = outputImgs.getOutput();
 
 		
 	
