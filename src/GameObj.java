@@ -149,10 +149,6 @@ public class GameObj {
 			return Direction.LEFT;
 		else if (pos_x + v_x > max_x)
 			return Direction.RIGHT;
-		if (pos_y + v_y < 0)
-			return Direction.UP;
-		else if (pos_y + v_y > max_y)
-			return Direction.DOWN;
 		else return null;
 	}
 

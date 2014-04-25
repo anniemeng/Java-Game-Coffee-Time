@@ -1,8 +1,3 @@
-/**
- * CIS 120 HW10
- * (c) University of Pennsylvania
- * @version 2.0, Mar 2013
- */
 
 // imports necessary libraries for Java swing
 import java.awt.*;
@@ -33,7 +28,7 @@ public class Game implements Runnable {
 	private TreeSet<String> submitted = new TreeSet<String>();
 	
 	private static HashMap<TreeSet<String>, String> recipes;
-	private static TreeMap<String, Image> output;
+	private static TreeMap<String, String> output;
 	private JPanel topPanelChange;
 	private final JFrame frame = new JFrame("Study Break");;
 	
@@ -70,23 +65,23 @@ public class Game implements Runnable {
 		frame.setVisible(true);
 	}
 	
-	//TEST
-	static TreeSet<String> coffeeRecipe = new TreeSet<String>();
-	
-	
 	//if create button clicked
-	public void canvasSubmit() {
-				
+	public void canvasSubmit() {		
 		if (recipes.containsKey(submitted)) {
 			String nameDrink = recipes.get(submitted);
-			//Image now = output.get(nameDrink);
+			String now = output.get(nameDrink);
+			ConveyorItem test = new ConveyorItem(GameCourt.COURT_HEIGHT, GameCourt.COURT_WIDTH, "coffeecup.png");
+			court.addToConveyor(test);
+			court.repaint();
+
+			frame.setVisible(true);
 			System.out.println("true");
 		}
 		else System.out.println("false");
 		
 		canvasClear();
 	}
-	
+	final GameCourt court = new GameCourt();
 
 	public void run() {
 
@@ -94,7 +89,7 @@ public class Game implements Runnable {
 		frame.setLocation(200, 200);
 
 		// Main playing area
-		final GameCourt court = new GameCourt();
+		//final GameCourt court = new GameCourt();
 		court.setBorder(BorderFactory.createLineBorder(Color.black));
 		frame.add(court, BorderLayout.CENTER);
 
@@ -422,7 +417,7 @@ public class Game implements Runnable {
 	 * specified in Game and runs it IMPORTANT: Do NOT delete! You MUST include
 	 * this in the final submission of your game.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		//INITIALIZE RECIPES
 		//create new book
@@ -442,6 +437,7 @@ public class Game implements Runnable {
 		
 		//INITIALIZE IMAGE OUTPUTS
 		Output outputImgs = new Output();
+		outputImgs.setOutput("coffee", "coffeecup.png");
 		
 		//change Output to TreeMap
 		output = outputImgs.getOutput();

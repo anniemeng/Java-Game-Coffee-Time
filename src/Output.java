@@ -12,23 +12,21 @@ import javax.imageio.ImageIO;
 public class Output {
 	
 	private String name;
-	private Image img;
-	private TreeMap<String, Image> output;
+	private String img;
+	private TreeMap<String, String> output;
 
 	public Output() {
-		output = new TreeMap<String, Image>();
+		output = new TreeMap<String, String>();
 	}
 	
-	public TreeMap<String,Image> getOutput() {
+	public TreeMap<String,String> getOutput() {
 		return output;
 	}
 	
 	public void setOutput(String name, String file) throws IOException {
 		this.name = name;
 
-		Image temp = ImageIO.read(new File (file));
-		img = temp.getScaledInstance(40, 50, 0);
-		output.put(name,img);
+		output.put(name,file);
 		
 	}
 	

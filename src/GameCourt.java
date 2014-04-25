@@ -21,6 +21,11 @@ import java.util.ArrayList;
 public class GameCourt extends JPanel {
 
 	private Conveyor conveyor;
+	private ArrayList<ConveyorItem> onConveyor = new ArrayList<ConveyorItem>();
+	
+	public void addToConveyor(ConveyorItem current) {
+		onConveyor.add(current);
+	}
 	
 	// the state of the game logic
 
@@ -61,7 +66,7 @@ public class GameCourt extends JPanel {
 	 * (Re-)set the game to its initial state.
 	 */
 	public void reset() {
-
+		playing = true;
 		conveyor = new Conveyor(COURT_WIDTH, COURT_HEIGHT);
 		// Make sure that this component has the keyboard focus
 		requestFocusInWindow();
@@ -83,6 +88,14 @@ public class GameCourt extends JPanel {
 			//square.move();
 
 			// update the display
+			if (!onConveyor.isEmpty()) {
+				for (int i = 0; i < onConveyor.size(); i++) {
+					onConveyor.get(i).move();
+					onConveyor.get(i).bounce(onConveyor.get(i).hitWall());
+				}
+			}
+			
+			
 			repaint();
 		}
 	}
@@ -91,6 +104,12 @@ public class GameCourt extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		conveyor.draw(g);
+		
+		if (!onConveyor.isEmpty()) {
+			for (int i = 0; i < onConveyor.size(); i++) {
+				onConveyor.get(i).draw(g);
+			}
+		}
 
 	}
 
