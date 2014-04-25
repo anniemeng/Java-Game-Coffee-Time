@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -31,7 +32,7 @@ public class Game implements Runnable {
 	ArrayList<JButton> areaButtons = new ArrayList<JButton>();
 	TreeSet<String> submitted = new TreeSet<String>();
 	TreeMap<String, Image> output = Output.getImage();
-	TreeMap<TreeSet<String>, String> recipes = Output.getString();
+	HashMap<TreeSet<String>, String> recipes = Output.getString();
 
 	//METHODS TO MANIPULATE ARRAYLIST
 	public void addIngredient(JPanel current, JFrame frame, Image img, JButton button, String name) {
@@ -73,25 +74,13 @@ public class Game implements Runnable {
 	
 	//if create button clicked
 	public void canvasSubmit() {
+
 		if (recipes.containsKey(submitted) ) {
 			String nameDrink = recipes.get(submitted);
 			Image now = output.get(nameDrink);
 			System.out.println("true");
 		}
-		
-		
-		/*
-		for (int i = 0; i < areaButtons.size(); i++) {
-			// find id associated with button
-			if (buttonIds.containsValue(areaButtons.get(i))) {
-				String id = (String) buttonIds.keySet().toArray()[0];
-						
-						buttonIds.get(areaButtons.get(i));
-				//add id to set
-				submitted.add(id);
-			}
-		}
-		*/
+		else System.out.println("false");
 	}
 	
 
