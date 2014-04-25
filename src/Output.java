@@ -9,22 +9,32 @@ import javax.imageio.ImageIO;
 
 
 public class Output {
-	private static TreeMap<Image, Set<String>> output = new TreeMap<Image, Set<String>>();
 	
-	//COMPARE FOR CONVEYOR
-	static Set<String> coffee = new TreeSet<String>();
+	//ONE word associated with String 
+	private static TreeMap<TreeSet<String>, String> recipes = new TreeMap<TreeSet<String>, String>();
+	static TreeSet<String> coffeeRecipe = new TreeSet<String>();
+	public static TreeMap<TreeSet<String>, String> getString() {
+		return recipes;
+	}
 	
 	
-	public static TreeMap<Image, Set<String>> getOutput() {
+	//get image with ONE word
+	private static TreeMap<String, Image> output = new TreeMap<String, Image>();
+	static String coffee = "coffee";
+	public static TreeMap<String,Image> getImage() {
 		return output;
 	}
 	
 	public static void main (String[] args) throws IOException {
-		coffee.add("mug");
-		coffee.add("bean");
+		//RECIPES
+		coffeeRecipe.add("mug");
+		coffeeRecipe.add("bean");
+		recipes.put(coffeeRecipe, coffee);
+		
+		//LINK RECIPE TO IMAGE
 		Image c = ImageIO.read(new File ("coffeecup.png"));
 		c = c.getScaledInstance(40, 50, 0);
-		output.put(c, coffee);
+		output.put(coffee,c);
 	}
 	
 	

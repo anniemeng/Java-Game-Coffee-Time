@@ -26,15 +26,16 @@ public class Game implements Runnable {
 	
 	//DATA STRUCTURE TO STORE INGREDIENTS APPEARING IN CREATION AREA
 	//ARRAYLIST
-	
+
 	ArrayList<JLabel> ingredientArea = new ArrayList<JLabel>();
 	ArrayList<JButton> areaButtons = new ArrayList<JButton>();
-	Set<String> submitted = null;
-	TreeMap<String, JButton> buttonIds = new TreeMap<String, JButton>();
-	TreeMap<Image, Set<String>> output = Output.getOutput();
+	TreeSet<String> submitted = new TreeSet<String>();
+	TreeMap<String, Image> output = Output.getImage();
+	TreeMap<TreeSet<String>, String> recipes = Output.getString();
 
 	//METHODS TO MANIPULATE ARRAYLIST
-	public void addIngredient(JPanel current, JFrame frame, Image img, JButton button) {
+	public void addIngredient(JPanel current, JFrame frame, Image img, JButton button, String name) {
+		submitted.add(name);
 		areaButtons.add(button);
 		JLabel added = new JLabel(new ImageIcon(img));
 		added.setPreferredSize(new Dimension(50, 50));
@@ -62,7 +63,7 @@ public class Game implements Runnable {
 			int label = Integer.parseInt(areaButtons.get(i).getText());
 			areaButtons.get(i).setText("" + (label + 1));
 		}
-		
+		submitted.clear();
 		ingredientArea.clear();
 		areaButtons.clear();
 		current.removeAll();
@@ -72,6 +73,14 @@ public class Game implements Runnable {
 	
 	//if create button clicked
 	public void canvasSubmit() {
+		if (recipes.containsKey(submitted) ) {
+			String nameDrink = recipes.get(submitted);
+			Image now = output.get(nameDrink);
+			System.out.println("true");
+		}
+		
+		
+		/*
 		for (int i = 0; i < areaButtons.size(); i++) {
 			// find id associated with button
 			if (buttonIds.containsValue(areaButtons.get(i))) {
@@ -82,6 +91,7 @@ public class Game implements Runnable {
 				submitted.add(id);
 			}
 		}
+		*/
 	}
 	
 
@@ -196,13 +206,13 @@ public class Game implements Runnable {
 				int label = Integer.parseInt(normCupButton.getText());
 				if (label != 0) {
 					normCupButton.setText("" + (label - 1));
-					addIngredient(creationTop, frame, resizeMug, normCupButton);
+					addIngredient(creationTop, frame, resizeMug, normCupButton, "mug");
 				}
 
 			}
 		});
 		//add to treemap
-		buttonIds.put("mug", normCupButton);
+		//buttonIds.put("mug", normCupButton);
 		
 		ingredients.add(normCupButton);
 		
@@ -221,12 +231,12 @@ public class Game implements Runnable {
 				int label = Integer.parseInt(toGoCupButton.getText());
 				if (label != 0) {
 					toGoCupButton.setText("" + (label - 1));
-					addIngredient(creationTop, frame, resizeToGo, toGoCupButton);
+					addIngredient(creationTop, frame, resizeToGo, toGoCupButton, "togo");
 				}
 			}
 		});
 		//add to treemap
-		buttonIds.put("togo", toGoCupButton);
+		//buttonIds.put("togo", toGoCupButton);
 		
 		ingredients.add(toGoCupButton);
 		
@@ -246,25 +256,38 @@ public class Game implements Runnable {
 				int label = Integer.parseInt(shortCupButton.getText());
 				if (label != 0) {
 					shortCupButton.setText("" + (label - 1));
-					addIngredient(creationTop, frame, espResize, shortCupButton);
+					addIngredient(creationTop, frame, espResize, shortCupButton, "espresso");
 				}
 			}
 		});
 		//add to treemap
-		buttonIds.put("espresso", shortCupButton);
+		//buttonIds.put("espresso", shortCupButton);
 		
 		ingredients.add(shortCupButton);
 		
 		//COFFEE BEANS 
-		ImageIcon coffeeBeanImg = new ImageIcon("coffeecup.jpg");
+		Image coffeeBean = null;
+		try {
+			coffeeBean = ImageIO.read(new File ("cbean.jpg"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		final Image coffeeBeanResize = coffeeBean.getScaledInstance(50, 40, 0);
+		
+		
+		ImageIcon coffeeBeanImg = new ImageIcon(coffeeBeanResize);
 		final JButton coffeeBeanButton = new JButton("10", coffeeBeanImg);
 		coffeeBeanButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addIngredient(creationTop, frame, "coffeecup.jpg");
+				int label = Integer.parseInt(coffeeBeanButton.getText());
+				if (label != 0) {
+					coffeeBeanButton.setText("" + (label - 1));
+					addIngredient(creationTop, frame, coffeeBeanResize, coffeeBeanButton, "bean");
+				}
 			}
 		});
 		//add to treemap
-		buttonIds.put("bean", coffeeBeanButton);
+		//buttonIds.put("bean", coffeeBeanButton);
 		
 		ingredients.add(coffeeBeanButton);
 		
@@ -278,7 +301,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put("chocolate", chocButton);
+		//buttonIds.put("chocolate", chocButton);
 		
 		ingredients.add(chocButton);
 		
@@ -292,7 +315,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put("ice",iceButton);
+		//buttonIds.put("ice",iceButton);
 		
 		ingredients.add(iceButton);
 		
@@ -306,7 +329,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put("milk", milkButton);
+		//buttonIds.put("milk", milkButton);
 		
 		ingredients.add(milkButton);
 		
@@ -319,7 +342,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put("syrup", syrupButton);
+		//buttonIds.put("syrup", syrupButton);
 		
 		ingredients.add(syrupButton);
 		
@@ -332,7 +355,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put("tea", teaButton);
+		//buttonIds.put("tea", teaButton);
 		
 		ingredients.add(teaButton);
 		
@@ -345,7 +368,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put("cream", creamButton);
+		//buttonIds.put("cream", creamButton);
 		
 		ingredients.add(creamButton);
 		
@@ -358,7 +381,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put("cinnamon", cinnaButton);
+		//buttonIds.put("cinnamon", cinnaButton);
 		
 		ingredients.add(cinnaButton);
 		
@@ -373,7 +396,7 @@ public class Game implements Runnable {
 			}
 		});
 		//add to treemap
-		buttonIds.put( "vanilla", vanillaButton);
+		//buttonIds.put( "vanilla", vanillaButton);
 		
 		ingredients.add(vanillaButton);	
 		
