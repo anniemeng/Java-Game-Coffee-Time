@@ -37,7 +37,7 @@ public class Game implements Runnable {
 	private final JFrame frame = new JFrame("Study Break");;
 	
 	//METHODS TO MANIPULATE ARRAYLIST
-	public void addIngredient(JPanel current, JFrame frame, Image img, JButton button, String name) {
+	public void addIngredient(Image img, JButton button, String name) {
 		submitted.add(name);
 		areaButtons.add(button);
 		JLabel added = new JLabel(new ImageIcon(img));
@@ -46,11 +46,11 @@ public class Game implements Runnable {
 		
 		// add jlabels to panel
 		for (int i = 0; i < ingredientArea.size(); i++) {
-			current.add(ingredientArea.get(i));
+			topPanelChange.add(ingredientArea.get(i));
 		}
 		
 		// then display 
-		current.repaint();
+		topPanelChange.repaint();
 		frame.setVisible(true);
 	}
 	
@@ -79,10 +79,13 @@ public class Game implements Runnable {
 			court.repaint();
 			frame.setVisible(true);
 			System.out.println("true");
+			canvasClear();
 		}
-		else System.out.println("false");
+		else {
+			System.out.println("false");
+			canvasClear();
+		}
 		
-		canvasClear();
 	}
 	//score count
 	final static JLabel scoreCnt = new JLabel();
@@ -203,7 +206,7 @@ public class Game implements Runnable {
 				int label = Integer.parseInt(normCupButton.getText());
 				if (label != 0) {
 					normCupButton.setText("" + (label - 1));
-					addIngredient(creationTop, frame, resizeMug, normCupButton, "mug");
+					addIngredient(resizeMug, normCupButton, "mug");
 				}
 
 			}
@@ -225,7 +228,7 @@ public class Game implements Runnable {
 				int label = Integer.parseInt(toGoCupButton.getText());
 				if (label != 0) {
 					toGoCupButton.setText("" + (label - 1));
-					addIngredient(creationTop, frame, resizeToGo, toGoCupButton, "togo");
+					addIngredient(resizeToGo, toGoCupButton, "togo");
 				}
 			}
 		});
@@ -247,7 +250,7 @@ public class Game implements Runnable {
 				int label = Integer.parseInt(shortCupButton.getText());
 				if (label != 0) {
 					shortCupButton.setText("" + (label - 1));
-					addIngredient(creationTop, frame, espResize, shortCupButton, "espresso");
+					addIngredient(espResize, shortCupButton, "espresso");
 				}
 			}
 		});
@@ -270,7 +273,7 @@ public class Game implements Runnable {
 				int label = Integer.parseInt(coffeeBeanButton.getText());
 				if (label != 0) {
 					coffeeBeanButton.setText("" + (label - 1));
-					addIngredient(creationTop, frame, coffeeBeanResize, coffeeBeanButton, "bean");
+					addIngredient(coffeeBeanResize, coffeeBeanButton, "bean");
 				}
 			}
 		});
@@ -293,7 +296,7 @@ public class Game implements Runnable {
 				int label = Integer.parseInt(chocButton.getText());
 				if (label != 0) {
 					chocButton.setText("" + (label - 1));
-					addIngredient(creationTop, frame, chocolateResize, chocButton, "chocolate");
+					addIngredient(chocolateResize, chocButton, "chocolate");
 				}
 			}
 		});
@@ -317,7 +320,7 @@ public class Game implements Runnable {
 				int label = Integer.parseInt(milkButton.getText());
 				if (label != 0) {
 					milkButton.setText("" + (label - 1));
-					addIngredient(creationTop, frame, milkResize, milkButton, "milk");
+					addIngredient(milkResize, milkButton, "milk");
 				}
 			}
 		});
@@ -340,7 +343,7 @@ public class Game implements Runnable {
 				int label = Integer.parseInt(teaButton.getText());
 				if (label != 0) {
 					teaButton.setText("" + (label - 1));
-					addIngredient(creationTop, frame, teaResize, teaButton, "tea");
+					addIngredient(teaResize, teaButton, "tea");
 				}
 			}
 		});
@@ -362,7 +365,7 @@ public class Game implements Runnable {
 				int label = Integer.parseInt(creamButton.getText());
 				if (label != 0) {
 					creamButton.setText("" + (label - 1));
-					addIngredient(creationTop, frame, creamResize, creamButton, "cream");
+					addIngredient(creamResize, creamButton, "cream");
 				}
 			}
 		});
