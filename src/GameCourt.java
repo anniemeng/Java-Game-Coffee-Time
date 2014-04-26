@@ -27,19 +27,17 @@ public class GameCourt extends JPanel {
 	private ArrayList<ConveyorItem> onConveyor = new ArrayList<ConveyorItem>();
 	private ArrayList<Customers> customerList = new ArrayList<Customers>();
 	private TreeSet<String> customerImg = new TreeSet<String>();
+	private int counter = 0;
 	
 	public void addToConveyor(ConveyorItem current) {
 		onConveyor.add(current);
 	}
 	
-	
 	public void addCustomers(String name) {
 		customerImg.add(name);
 	}
 	
-	
 	// the state of the game logic
-
 	public boolean playing = false; // whether the game is running
 
 	// Game constants
@@ -48,6 +46,8 @@ public class GameCourt extends JPanel {
 	public static final int SQUARE_VELOCITY = 4;
 	// Update interval for timer, in milliseconds
 	public static final int INTERVAL = 35;
+	public static final int customerInterval = 5000;
+	public static final int timeOut = 5000;
 
 	public GameCourt() {
 		// creates border around the court area, JComponent method
@@ -59,6 +59,8 @@ public class GameCourt extends JPanel {
 		// each time the timer triggers. We define a helper method
 		// called tick() that actually does everything that should
 		// be done in a single timestep.
+		
+		//overall timer
 		Timer timer = new Timer(INTERVAL, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tick();
@@ -66,18 +68,37 @@ public class GameCourt extends JPanel {
 		});
 		timer.start(); // MAKE SURE TO START THE TIMER!
 		
-		Timer people = new Timer(4, new ActionListener() {
+		//customer appearances
+		Timer people = new Timer(customerInterval, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//possible locations 
-				int[] loc = {0, 200, 400, 600};
-				int xLoc = (int) (Math.random() * 4);								
-				Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, xLoc, 0, "student.jpg");
+				if (counter > 3) {
+					counter = 0;
+				}
+				
+				int[] loc = {250, 750, 0, 500};
+				int xLoc = loc[counter];
+				System.out.println(xLoc);
+				Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, xLoc, 0, "student.jpg", "coffee");
+				customerList.add(current);
+				repaint();
+				counter += 1;
 			}
 		});
-		timer.start(); // MAKE SURE TO START THE TIMER!
+		people.start(); // MAKE SURE TO START THE TIMER!
 		
+		//time out for customers
+		Timer removePeople = new Timer(timeOut, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!customerList.isEmpty()) {
+					customerList.remove(0);
+					repaint();
+				}
+			}
+		});
+		removePeople.setInitialDelay(15000);
+		removePeople.start(); // MAKE SURE TO START THE TIMER!
 		
-
 		// Enable keyboard focus on the court area.
 		// When this component has the keyboard focus, key
 		// events will be handled by its key listener.
@@ -115,10 +136,13 @@ public class GameCourt extends JPanel {
 					if (wall) {
 						onConveyor.remove(i); 
 					}
+					
+					//check if satisfy customer
+					for (int j = 0; j < customerList.size(); j++) {
+					
+					}
 				}
 			}
-			
-			
 			repaint();
 		}
 	}
@@ -127,12 +151,15 @@ public class GameCourt extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		conveyor.draw(g);
+		
+		//draw customers
 		if (!customerList.isEmpty()) {
 			for (int i = 0; i < customerList.size(); i++) {
 				customerList.get(i).draw(g);
 			}
 		}
 		
+		//draw drinks
 		if (!onConveyor.isEmpty()) {
 			for (int i = 0; i < onConveyor.size(); i++) {
 				onConveyor.get(i).draw(g);
