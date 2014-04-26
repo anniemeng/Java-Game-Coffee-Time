@@ -6,8 +6,11 @@
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * GameCourt
@@ -23,15 +26,17 @@ public class GameCourt extends JPanel {
 	private Conveyor conveyor;
 	private ArrayList<ConveyorItem> onConveyor = new ArrayList<ConveyorItem>();
 	private ArrayList<Customers> customerList = new ArrayList<Customers>();
+	private TreeSet<String> customerImg = new TreeSet<String>();
 	
 	public void addToConveyor(ConveyorItem current) {
 		onConveyor.add(current);
 	}
 	
-	public void addToCustomers() {
-		Customers a = new Customers(COURT_WIDTH, COURT_HEIGHT);
-		customerList.add(a);
+	
+	public void addCustomers(String name) {
+		customerImg.add(name);
 	}
+	
 	
 	// the state of the game logic
 
@@ -60,6 +65,18 @@ public class GameCourt extends JPanel {
 			}
 		});
 		timer.start(); // MAKE SURE TO START THE TIMER!
+		
+		Timer people = new Timer(4, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//possible locations 
+				int[] loc = {0, 200, 400, 600};
+				int xLoc = (int) (Math.random() * 4);								
+				Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, xLoc, 0, "student.jpg");
+			}
+		});
+		timer.start(); // MAKE SURE TO START THE TIMER!
+		
+		
 
 		// Enable keyboard focus on the court area.
 		// When this component has the keyboard focus, key

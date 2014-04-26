@@ -442,7 +442,7 @@ public class Game implements Runnable {
 		output = outputImgs.getOutput();
 
 		//INITIALIZE CUSTOMERS
-		court.addToCustomers();
+		court.addCustomers("student.jpg");
 	
 		SwingUtilities.invokeLater(new Game());
 	}

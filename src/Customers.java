@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Customers extends GameObj {
-	public static String img_file = "student.jpg";
+	public static String img_file = "";
 	public static final int sizeX = 200;
 	public static final int sizeY = 250;
 	public static final int INIT_X = 0;
@@ -17,11 +17,11 @@ public class Customers extends GameObj {
 
 	private static BufferedImage img;
 
-	public Customers (int courtWidth, int courtHeight) {
+	public Customers (int courtWidth, int courtHeight, int locX, int locY, String pic) {
 		super(INIT_VEL_X, INIT_VEL_Y, INIT_X, INIT_Y, sizeX, sizeY, courtWidth,
 				courtHeight);
 		try {
-
+			img_file = pic;
 			if (img == null) {
 				img = ImageIO.read(new File(img_file));
 			}
