@@ -70,7 +70,7 @@ public class Game implements Runnable {
 		if (recipes.containsKey(submitted)) {
 			String nameDrink = recipes.get(submitted);
 			String now = output.get(nameDrink);
-			ConveyorItem test = new ConveyorItem(GameCourt.COURT_HEIGHT, GameCourt.COURT_WIDTH, now);
+			ConveyorItem test = new ConveyorItem(GameCourt.COURT_HEIGHT, GameCourt.COURT_WIDTH, now, nameDrink);
 			court.addToConveyor(test);
 			court.repaint();
 			frame.setVisible(true);
@@ -80,7 +80,9 @@ public class Game implements Runnable {
 		
 		canvasClear();
 	}
-	final static GameCourt court = new GameCourt();
+	//score count
+	final static JLabel scoreCnt = new JLabel();
+	final static GameCourt court = new GameCourt(scoreCnt);
 
 	public void run() {
 
@@ -110,11 +112,11 @@ public class Game implements Runnable {
 		control_panel.add(score, "Center");
 		*/
 		
-		//score count
-		final JLabel scoreCnt = new JLabel("$ 0");
+		//score panel
+		scoreCnt.setText("$ 0");
 		scoreCnt.setBorder(BorderFactory.createLineBorder(Color.black));
 		control_panel.add(scoreCnt, "Center");
-		
+	
 		// quit button
 		final JButton quit = new JButton("Quit");
 		quit.addActionListener(new ActionListener() {

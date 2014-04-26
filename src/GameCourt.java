@@ -28,6 +28,8 @@ public class GameCourt extends JPanel {
 	private ArrayList<Customers> customerList = new ArrayList<Customers>();
 	private TreeSet<String> customerImg = new TreeSet<String>();
 	private int counter = 0;
+	private JLabel scoreCnt = new JLabel();
+	private int score = 0;
 	
 	public void addToConveyor(ConveyorItem current) {
 		onConveyor.add(current);
@@ -47,9 +49,10 @@ public class GameCourt extends JPanel {
 	// Update interval for timer, in milliseconds
 	public static final int INTERVAL = 35;
 	public static final int customerInterval = 5000;
-	public static final int timeOut = 5000;
+	public static final int timeOut = 10000;
 
-	public GameCourt() {
+	public GameCourt(JLabel scoreCnt) {
+		this.scoreCnt = scoreCnt;
 		// creates border around the court area, JComponent method
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -96,7 +99,7 @@ public class GameCourt extends JPanel {
 				}
 			}
 		});
-		removePeople.setInitialDelay(15000);
+		removePeople.setInitialDelay(10000);
 		removePeople.start(); // MAKE SURE TO START THE TIMER!
 		
 		// Enable keyboard focus on the court area.
@@ -139,7 +142,19 @@ public class GameCourt extends JPanel {
 					
 					//check if satisfy customer
 					for (int j = 0; j < customerList.size(); j++) {
-					
+						if (!onConveyor.isEmpty()) {
+						int drinkLoc = onConveyor.get(i).pos_x;
+						int upperBound = customerList.get(j).pos_x + customerList.get(j).sizeX;
+						int lowerBound = customerList.get(j).pos_x + 50;
+						if (onConveyor.get(i).name == customerList.get(j).order && (drinkLoc > lowerBound && drinkLoc < upperBound)) {
+							onConveyor.remove(i);
+							customerList.remove(j);
+							repaint();
+							score += 10;
+							scoreCnt.setText("$" + score);
+							break;
+						}
+					}
 					}
 				}
 			}
@@ -147,8 +162,10 @@ public class GameCourt extends JPanel {
 		}
 	}
 
+	
 	@Override
 	public void paintComponent(Graphics g) {
+		
 		super.paintComponent(g);
 		conveyor.draw(g);
 		
