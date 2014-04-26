@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -28,7 +29,10 @@ public class Game implements Runnable {
 	private TreeSet<String> submitted = new TreeSet<String>();
 	
 	private static HashMap<TreeSet<String>, String> recipes;
-	private static TreeMap<String, String> output;
+	public static TreeMap<String, String> output;
+	private static Object[] temp = new Object[5];
+	public static String[] images = new String[5];
+	
 	private JPanel topPanelChange;
 	private final JFrame frame = new JFrame("Study Break");;
 	
@@ -157,7 +161,6 @@ public class Game implements Runnable {
 		creationTop.setLayout(new FlowLayout()); 
 		creationArea.add(creationTop, BorderLayout.CENTER);
 		
-		
 		//CREATE BUTTON
 		final JButton createButton = new JButton("CREATE");
 		createButton.addActionListener(new ActionListener() {
@@ -205,9 +208,6 @@ public class Game implements Runnable {
 
 			}
 		});
-		//add to treemap
-		//buttonIds.put("mug", normCupButton);
-		
 		ingredients.add(normCupButton);
 		
 		//TALL MUG
@@ -229,15 +229,12 @@ public class Game implements Runnable {
 				}
 			}
 		});
-		//add to treemap
-		//buttonIds.put("togo", toGoCupButton);
-		
 		ingredients.add(toGoCupButton);
 		
 		//SHORT MUG
 		Image espCup = null;
 		try {
-			espCup = ImageIO.read(new File ("espresso.png"));
+			espCup = ImageIO.read(new File ("espressocup.png"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -254,9 +251,6 @@ public class Game implements Runnable {
 				}
 			}
 		});
-		//add to treemap
-		//buttonIds.put("espresso", shortCupButton);
-		
 		ingredients.add(shortCupButton);
 		
 		//COFFEE BEANS 
@@ -280,26 +274,101 @@ public class Game implements Runnable {
 				}
 			}
 		});
-		//add to treemap
-		//buttonIds.put("bean", coffeeBeanButton);
-		
 		ingredients.add(coffeeBeanButton);
 		
 		
 		//CHOCOLATE 
-		ImageIcon chocImg = new ImageIcon("coffeecup.jpg");
+		Image chocolate = null;
+		try {
+			chocolate = ImageIO.read(new File ("chocolate.png"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		final Image chocolateResize = chocolate.getScaledInstance(40, 60, 0);
+		
+		ImageIcon chocImg = new ImageIcon(chocolateResize);
 		final JButton chocButton = new JButton("10", chocImg);
 		chocButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addIngredient(creationTop, frame, "coffeecup.jpg");
+				int label = Integer.parseInt(chocButton.getText());
+				if (label != 0) {
+					chocButton.setText("" + (label - 1));
+					addIngredient(creationTop, frame, chocolateResize, chocButton, "chocolate");
+				}
 			}
 		});
-		//add to treemap
-		//buttonIds.put("chocolate", chocButton);
 		
 		ingredients.add(chocButton);
 		
+		//MILK
+		Image milk = null;
+		try {
+			milk = ImageIO.read(new File ("milk.png"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		final Image milkResize = milk.getScaledInstance(40, 60, 0);
 		
+		
+		ImageIcon milkImg = new ImageIcon(milkResize);
+		final JButton milkButton = new JButton("10", milkImg);
+		milkButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int label = Integer.parseInt(milkButton.getText());
+				if (label != 0) {
+					milkButton.setText("" + (label - 1));
+					addIngredient(creationTop, frame, milkResize, milkButton, "milk");
+				}
+			}
+		});
+		ingredients.add(milkButton);
+		
+		
+		//TEA
+		Image tea = null;
+		try {
+			tea = ImageIO.read(new File ("teabag.png"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		final Image teaResize = tea.getScaledInstance(50, 60, 0);
+		
+		ImageIcon teaImg = new ImageIcon(teaResize);
+		final JButton teaButton = new JButton("10", teaImg);
+		teaButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int label = Integer.parseInt(teaButton.getText());
+				if (label != 0) {
+					teaButton.setText("" + (label - 1));
+					addIngredient(creationTop, frame, teaResize, teaButton, "tea");
+				}
+			}
+		});
+		ingredients.add(teaButton);
+		
+		//WHIPPED CREAM
+		Image cream = null;
+		try {
+			cream = ImageIO.read(new File ("cream.png"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		final Image creamResize = cream.getScaledInstance(50, 40, 0);
+		
+		ImageIcon creamImg = new ImageIcon(creamResize);
+		final JButton creamButton = new JButton("10", creamImg);
+		creamButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int label = Integer.parseInt(creamButton.getText());
+				if (label != 0) {
+					creamButton.setText("" + (label - 1));
+					addIngredient(creationTop, frame, creamResize, creamButton, "cream");
+				}
+			}
+		});
+		ingredients.add(creamButton);
+
+
 		//ICE
 		ImageIcon iceImg = new ImageIcon("coffeecup.jpg");
 		final JButton iceButton = new JButton("10", iceImg);
@@ -308,24 +377,9 @@ public class Game implements Runnable {
 				addIngredient(creationTop, frame, "coffeecup.jpg");
 			}
 		});
-		//add to treemap
-		//buttonIds.put("ice",iceButton);
-		
 		ingredients.add(iceButton);
 		
-		
-		//MILK
-		ImageIcon milkImg = new ImageIcon("coffeecup.jpg");
-		final JButton milkButton = new JButton("10", milkImg);
-		milkButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addIngredient(creationTop, frame, "coffeecup.jpg");
-			}
-		});
-		//add to treemap
-		//buttonIds.put("milk", milkButton);
-		
-		ingredients.add(milkButton);
+
 		
 		//SYRUP
 		ImageIcon syrupImg = new ImageIcon("coffeecup.jpg");
@@ -340,31 +394,7 @@ public class Game implements Runnable {
 		
 		ingredients.add(syrupButton);
 		
-		//TEA
-		ImageIcon teaImg = new ImageIcon("coffeecup.jpg");
-		final JButton teaButton = new JButton("10", teaImg);
-		teaButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addIngredient(creationTop, frame, "coffeecup.jpg");
-			}
-		});
-		//add to treemap
-		//buttonIds.put("tea", teaButton);
 		
-		ingredients.add(teaButton);
-		
-		//WHIPPED CREAM
-		ImageIcon creamImg = new ImageIcon("coffeecup.jpg");
-		final JButton creamButton = new JButton("10", creamImg);
-		creamButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addIngredient(creationTop, frame, "coffeecup.jpg");
-			}
-		});
-		//add to treemap
-		//buttonIds.put("cream", creamButton);
-		
-		ingredients.add(creamButton);
 		
 		//CINNAMON 
 		ImageIcon cinnaImg = new ImageIcon("coffeecup.jpg");
@@ -443,13 +473,27 @@ public class Game implements Runnable {
 		//change Recipes to HashMap
 		recipes = recipeBook.getBook();
 		
+		
+		
 		//INITIALIZE IMAGE OUTPUTS
 		Output outputImgs = new Output();
 		outputImgs.setOutput("coffee", "coffee.png");
+		outputImgs.setOutput("espresso", "espresso.png");
+		outputImgs.setOutput("mocha", "mocha.png");
+		outputImgs.setOutput("latte", "latte.png");
+		outputImgs.setOutput("tea", "tea.png");
 		
 		//change Output to TreeMap
 		output = outputImgs.getOutput();
-
+		
+		temp = output.values().toArray();
+		
+		//GET ARRAY OF IMAGES FOR MATCHING LATER 
+		
+		 for (int i = 0; i <temp.length; i++) {
+			images[i] = temp[i].toString();
+		}
+		 
 		//INITIALIZE CUSTOMERS
 		court.addCustomers("student.jpg");
 	

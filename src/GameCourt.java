@@ -10,6 +10,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -71,6 +72,7 @@ public class GameCourt extends JPanel {
 		});
 		timer.start(); // MAKE SURE TO START THE TIMER!
 		
+		
 		//customer appearances
 		Timer people = new Timer(customerInterval, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -82,7 +84,14 @@ public class GameCourt extends JPanel {
 				int[] loc = {250, 750, 0, 500};
 				int xLoc = loc[counter];
 				System.out.println(xLoc);
-				Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, xLoc, 0, "student.jpg", "coffee");
+				
+				int recipeNum = (int) (Math.random() * 5);
+				//possible recipes
+				String[] recipeImgs = Game.images;
+				String[] names = {"coffee", "espresso", "mocha", "latte", "tea"};
+			
+				System.out.println(recipeImgs[recipeNum]);
+				Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, xLoc, names[recipeNum], recipeImgs[recipeNum]);
 				customerList.add(current);
 				repaint();
 				counter += 1;
@@ -129,8 +138,6 @@ public class GameCourt extends JPanel {
 	 * triggers.
 	 */
 	void tick() {
-		if (playing) {
-
 			// update the display
 			if (!onConveyor.isEmpty()) {
 				for (int i = 0; i < onConveyor.size(); i++) {
@@ -146,6 +153,8 @@ public class GameCourt extends JPanel {
 						int drinkLoc = onConveyor.get(i).pos_x;
 						int upperBound = customerList.get(j).pos_x + customerList.get(j).sizeX;
 						int lowerBound = customerList.get(j).pos_x + 50;
+						
+						
 						if (onConveyor.get(i).name == customerList.get(j).order && (drinkLoc > lowerBound && drinkLoc < upperBound)) {
 							onConveyor.remove(i);
 							customerList.remove(j);
@@ -159,7 +168,7 @@ public class GameCourt extends JPanel {
 				}
 			}
 			repaint();
-		}
+		
 	}
 
 	
