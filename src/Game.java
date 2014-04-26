@@ -431,7 +431,14 @@ public class Game implements Runnable {
 		String[] espressoList = {"espresso", "bean"};
 		recipeBook.setRecipes(espressoList, "espresso");
 		
-
+		String[] teaList = {"togo", "tea"};
+		recipeBook.setRecipes(teaList, "tea");
+		
+		String[] mochaList = {"togo", "bean", "chocolate"};
+		recipeBook.setRecipes(mochaList, "mocha");
+		
+		String[] latteList = {"mug", "bean", "milk", "cream"};
+		recipeBook.setRecipes(latteList, "latte");
 		
 		//change Recipes to HashMap
 		recipes = recipeBook.getBook();
