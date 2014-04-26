@@ -27,7 +27,6 @@ public class GameCourt extends JPanel {
 	private Conveyor conveyor;
 	private ArrayList<ConveyorItem> onConveyor = new ArrayList<ConveyorItem>();
 	private ArrayList<Customers> customerList = new ArrayList<Customers>();
-	private TreeSet<String> customerImg = new TreeSet<String>();
 	private int counter = 0;
 	private JLabel scoreCnt = new JLabel();
 	private int score = 0;
@@ -35,10 +34,7 @@ public class GameCourt extends JPanel {
 	public void addToConveyor(ConveyorItem current) {
 		onConveyor.add(current);
 	}
-	
-	public void addCustomers(String name) {
-		customerImg.add(name);
-	}
+
 	
 	// the state of the game logic
 	public boolean playing = false; // whether the game is running
@@ -50,7 +46,7 @@ public class GameCourt extends JPanel {
 	// Update interval for timer, in milliseconds
 	public static final int INTERVAL = 35;
 	public static final int customerInterval = 5000;
-	public static final int timeOut = 10000;
+	public static final int timeOut = 15000;
 
 	public GameCourt(JLabel scoreCnt) {
 		this.scoreCnt = scoreCnt;
@@ -87,10 +83,10 @@ public class GameCourt extends JPanel {
 				
 				int recipeNum = (int) (Math.random() * 5);
 				//possible recipes
-				String[] recipeImgs = Game.images;
+				String[] recipeImgs = {"coffee.png", "espresso.png", "mocha.png", "latte.png", "tea.png"};
 				String[] names = {"coffee", "espresso", "mocha", "latte", "tea"};
 			
-				System.out.println(recipeImgs[recipeNum]);
+				//System.out.println(recipeImgs[recipeNum]);
 				Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, xLoc, names[recipeNum], recipeImgs[recipeNum]);
 				customerList.add(current);
 				repaint();
@@ -154,8 +150,10 @@ public class GameCourt extends JPanel {
 						int upperBound = customerList.get(j).pos_x + customerList.get(j).sizeX;
 						int lowerBound = customerList.get(j).pos_x + 50;
 						
+						//System.out.println(onConveyor.get(i).name);
+						//System.out.println(customerList.get(j).order);
 						
-						if (onConveyor.get(i).name == customerList.get(j).order && (drinkLoc > lowerBound && drinkLoc < upperBound)) {
+						if (onConveyor.get(i).img_file == customerList.get(j).orderImg && (drinkLoc > lowerBound && drinkLoc < upperBound)) {
 							onConveyor.remove(i);
 							customerList.remove(j);
 							repaint();

@@ -25,16 +25,15 @@ public class Customers extends GameObj {
 				courtHeight);
 		try {
 			this.order = order;
+			this.orderImg = orderImg;
+			
 			INIT_X = locX;
 			if (img == null) {
 				img = ImageIO.read(new File(img_file));
 			}
 			
-			this.orderImg = orderImg;
-			
-			if (drink == null) {
 				drink = ImageIO.read(new File(orderImg));
-			}
+
 			
 			
 			

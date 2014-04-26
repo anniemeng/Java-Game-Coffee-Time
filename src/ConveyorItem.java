@@ -24,9 +24,7 @@ public class ConveyorItem extends GameObj {
 		try {
 			this.name = name;
 			img_file = pic;
-			if (img == null) {
-				img = ImageIO.read(new File(img_file));
-			}
+			img = ImageIO.read(new File(pic));
 		} catch (IOException e) {
 			System.out.println("Internal Error:" + e.getMessage());
 		}
