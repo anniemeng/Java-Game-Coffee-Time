@@ -30,7 +30,7 @@ public class Game implements Runnable {
 	
 	private static HashMap<TreeSet<String>, String> recipes;
 	public static TreeMap<String, String> output;
-	private static Object[] temp = new Object[5];
+	//private static Object[] temp = new Object[5];
 	public static String[] images = new String[5];
 	
 	private JPanel topPanelChange;
@@ -40,6 +40,8 @@ public class Game implements Runnable {
 	public void addIngredient(Image img, JButton button, String name) {
 		submitted.add(name);
 		areaButtons.add(button);
+		
+		// create new image icon 
 		JLabel added = new JLabel(new ImageIcon(img));
 		added.setPreferredSize(new Dimension(50, 50));
 		ingredientArea.add(added);
@@ -74,15 +76,11 @@ public class Game implements Runnable {
 		if (recipes.containsKey(submitted)) {
 			String nameDrink = recipes.get(submitted);
 			String file = output.get(nameDrink);
-			ConveyorItem test = new ConveyorItem(GameCourt.COURT_HEIGHT, GameCourt.COURT_WIDTH, file, nameDrink);
-			court.addToConveyor(test);
-			court.repaint();
+			court.addToConveyor(file, nameDrink);
 			frame.setVisible(true);
-			System.out.println("true");
 			canvasClear();
 		}
 		else {
-			System.out.println("false");
 			canvasClear();
 		}
 		

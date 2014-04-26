@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class ConveyorItem extends GameObj {
-	public static String img_file = "";
+	public String img_file = "";
 	public static String name = "";
 	public static final int sizeX = 70;
 	public static final int sizeY = 70;
@@ -16,25 +16,27 @@ public class ConveyorItem extends GameObj {
 	public static final int INIT_VEL_X = 3;
 	public static final int INIT_VEL_Y = 0;
 
-	private static BufferedImage img;
+	public static BufferedImage img;
 
 	public ConveyorItem (int courtWidth, int courtHeight, String pic, String name) {
 		super(INIT_VEL_X, INIT_VEL_Y, INIT_X, INIT_Y, sizeX, sizeY, courtWidth,
 				courtHeight);
-		try {
 			this.name = name;
 			img_file = pic;
-			img = ImageIO.read(new File(pic));
-		} catch (IOException e) {
-			System.out.println("Internal Error:" + e.getMessage());
-		}
+			//img = ImageIO.read(new File(img_file));
 	}
 
 	
 	
 	@Override
 	public void draw(Graphics g) {
-		g.drawImage(img, pos_x, pos_y, width, height, null);
+		try {
+			img = ImageIO.read(new File(img_file));
+			g.drawImage(img, pos_x, pos_y, width, height, null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

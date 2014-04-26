@@ -10,7 +10,7 @@ public class Customers extends GameObj {
 	public String img_file = "customer.png";
 	public String order = "";
 	public String orderImg = "";
-	public static final int sizeX = 150;
+	public static int sizeX = 150;
 	public static final int sizeY = 250;
 	public static int INIT_X = 0;
 	public static int INIT_Y = 45;
@@ -32,11 +32,6 @@ public class Customers extends GameObj {
 				img = ImageIO.read(new File(img_file));
 			}
 			
-				drink = ImageIO.read(new File(orderImg));
-
-			
-			
-			
 		} catch (IOException e) {
 			System.out.println("Internal Error:" + e.getMessage());
 		}
@@ -45,7 +40,13 @@ public class Customers extends GameObj {
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(img, pos_x, pos_y, width, height, null);
-		g.drawImage(drink, pos_x, 0, width/2, height/4, null);
+		try {
+			drink = ImageIO.read(new File(orderImg));
+			g.drawImage(drink, pos_x, 0, width/2, height/4, null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

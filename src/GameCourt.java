@@ -30,9 +30,12 @@ public class GameCourt extends JPanel {
 	private int counter = 0;
 	private JLabel scoreCnt = new JLabel();
 	private int score = 0;
+	private ConveyorItem current;
 	
-	public void addToConveyor(ConveyorItem current) {
+	public void addToConveyor(String file, String nameDrink) {
+		current = new ConveyorItem(COURT_HEIGHT, COURT_WIDTH, file, nameDrink);
 		onConveyor.add(current);
+		repaint();
 	}
 
 	
@@ -42,7 +45,7 @@ public class GameCourt extends JPanel {
 	// Game constants
 	public static final int COURT_WIDTH = 1000;
 	public static final int COURT_HEIGHT = 1000;
-	public static final int SQUARE_VELOCITY = 4;
+	
 	// Update interval for timer, in milliseconds
 	public static final int INTERVAL = 35;
 	public static final int customerInterval = 5000;
@@ -50,6 +53,7 @@ public class GameCourt extends JPanel {
 
 	public GameCourt(JLabel scoreCnt) {
 		this.scoreCnt = scoreCnt;
+		
 		// creates border around the court area, JComponent method
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -72,21 +76,23 @@ public class GameCourt extends JPanel {
 		//customer appearances
 		Timer people = new Timer(customerInterval, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//possible locations 
 				if (counter > 3) {
 					counter = 0;
 				}
 				
+				//possible locations
 				int[] loc = {250, 750, 0, 500};
 				int xLoc = loc[counter];
 				System.out.println(xLoc);
 				
+				//change possible recipes
 				int recipeNum = (int) (Math.random() * 5);
-				//possible recipes
 				String[] recipeImgs = {"coffee.png", "espresso.png", "mocha.png", "latte.png", "tea.png"};
 				String[] names = {"coffee", "espresso", "mocha", "latte", "tea"};
 			
 				//System.out.println(recipeImgs[recipeNum]);
+				
+				//create new customer
 				Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, xLoc, names[recipeNum], recipeImgs[recipeNum]);
 				customerList.add(current);
 				repaint();
@@ -185,8 +191,8 @@ public class GameCourt extends JPanel {
 		
 		//draw drinks
 		if (!onConveyor.isEmpty()) {
-			for (int i = 0; i < onConveyor.size(); i++) {
-				onConveyor.get(i).draw(g);
+			for (int j = 0; j < onConveyor.size(); j++) {
+				onConveyor.get(j).draw(g);
 			}
 		}
 		
