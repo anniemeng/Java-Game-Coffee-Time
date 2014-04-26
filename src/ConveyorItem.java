@@ -13,7 +13,7 @@ public class ConveyorItem extends GameObj {
 	public static final int sizeY = 70;
 	public static final int INIT_X = 0;
 	public static final int INIT_Y = 280;
-	public static final int INIT_VEL_X = 3;
+	public static final int INIT_VEL_X = 4;
 	public static final int INIT_VEL_Y = 0;
 
 	public static BufferedImage img;

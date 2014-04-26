@@ -110,7 +110,7 @@ public class GameCourt extends JPanel {
 				}
 			}
 		});
-		removePeople.setInitialDelay(10000);
+		removePeople.setInitialDelay(15000);
 		removePeople.start(); // MAKE SURE TO START THE TIMER!
 		
 		// Enable keyboard focus on the court area.
@@ -140,6 +140,7 @@ public class GameCourt extends JPanel {
 	 * triggers.
 	 */
 	void tick() {
+		if (playing) {
 			// update the display
 			if (!onConveyor.isEmpty()) {
 				for (int i = 0; i < onConveyor.size(); i++) {
@@ -164,6 +165,12 @@ public class GameCourt extends JPanel {
 							customerList.remove(j);
 							repaint();
 							score += 10;
+							
+							if (score >= 100) {
+								scoreCnt.setText("YOU WIN!!!!!!!!");
+								playing = false;
+							}
+							
 							scoreCnt.setText("$" + score);
 							break;
 						}
@@ -172,7 +179,7 @@ public class GameCourt extends JPanel {
 				}
 			}
 			repaint();
-		
+		}
 	}
 
 	
