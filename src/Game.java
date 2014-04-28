@@ -121,7 +121,21 @@ public class Game implements Runnable {
 		scoreCnt.setText("$ 0");
 		scoreCnt.setBorder(BorderFactory.createLineBorder(Color.black));
 		control_panel.add(scoreCnt, "Center");
-	
+
+		//contains quit and instructions
+		final JPanel topButtons = new JPanel(new FlowLayout());
+		control_panel.add(topButtons, "East");
+		
+		//instructions button
+	    final JButton instructions = new JButton("Instructions");
+	    instructions.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		JOptionPane.showMessageDialog(court, "instructions go here", "Instructions", JOptionPane.INFORMATION_MESSAGE);
+	            court.requestFocusInWindow();
+	         }
+	    });
+	    topButtons.add(instructions);
+		
 		// quit button
 		final JButton quit = new JButton("Quit");
 		quit.addActionListener(new ActionListener() {
@@ -129,7 +143,7 @@ public class Game implements Runnable {
 				court.quit();
 			}
 		});
-		control_panel.add(quit, "East");
+		topButtons.add(quit);
 		
 		
 		// BOTTOM PANEL
@@ -433,6 +447,19 @@ public class Game implements Runnable {
 		interactionArea.setPreferredSize(new Dimension(200, 300));
 		interactionArea.setBorder(BorderFactory.createLineBorder(Color.black));
 		bottom.add(interactionArea, BorderLayout.EAST);
+		
+		final JButton recipes = new JButton("Recipes");
+		recipes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane recipePopUp = new JOptionPane();
+				recipePopUp.setLocation(100,100);
+				recipePopUp.showMessageDialog(court, "RECIPEBOOK", "Recipes", JOptionPane.INFORMATION_MESSAGE);
+	            court.requestFocusInWindow();
+	            
+			}
+		});
+		interactionArea.add(recipes, "NORTH");
+		
 	 
 		
 		// Put the frame on the screen
