@@ -192,7 +192,9 @@ public class Game implements Runnable {
 				//reset counter of buttons
 				for (int i = 0; i < areaButtons.size(); i++) {
 					int label = Integer.parseInt(areaButtons.get(i).getText());
-					areaButtons.get(i).setText("" + (label + 1));
+					if (label < 10) {
+						areaButtons.get(i).setText("" + (label + 1));
+					}
 				}
 				canvasClear();
 			}
@@ -220,7 +222,18 @@ public class Game implements Runnable {
 					normCupButton.setText("" + (label - 1));
 					addIngredient(resizeMug, normCupButton, "mug");
 				}
-
+			}
+		});
+		
+		normCupButton.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent m) {
+				if (SwingUtilities.isRightMouseButton(m)) {
+					int label = Integer.parseInt(normCupButton.getText());
+					if (label == 0) {
+						normCupButton.setText("10");
+					}
+				}
+				
 			}
 		});
 		ingredients.add(normCupButton);
@@ -452,8 +465,7 @@ public class Game implements Runnable {
 		recipes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane recipePopUp = new JOptionPane();
-				recipePopUp.setLocation(100,100);
-				recipePopUp.showMessageDialog(court, "RECIPEBOOK", "Recipes", JOptionPane.INFORMATION_MESSAGE);
+				recipePopUp.showMessageDialog(interactionArea, "RECIPEBOOK", "Recipes", JOptionPane.INFORMATION_MESSAGE);
 	            court.requestFocusInWindow();
 	            
 			}
