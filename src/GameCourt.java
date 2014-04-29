@@ -76,9 +76,11 @@ public class GameCourt extends JPanel {
 		//customer appearances
 		people = new Timer(customerInterval, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (counter > 3) {
-					counter = 0;
-				}
+				
+				if (customerList.size() < 3) {
+					if (counter > 3) {
+						counter = 0;
+					}
 				
 				//possible locations
 				int[] loc = {250, 750, 0, 500};
@@ -95,9 +97,12 @@ public class GameCourt extends JPanel {
 				customerList.add(current);
 				repaint();
 				counter += 1;
+				}
 			}
 		});
+		people.setInitialDelay(5000);
 		people.start(); // MAKE SURE TO START THE TIMER!
+		
 		
 		//time out for customers
 		Timer removePeople = new Timer(timeOut, new ActionListener() {
@@ -108,8 +113,10 @@ public class GameCourt extends JPanel {
 				}
 			}
 		});
-		removePeople.setDelay(10000);
+		removePeople.setInitialDelay(10000);
 		removePeople.start(); // MAKE SURE TO START THE TIMER!
+		
+		
 		// Enable keyboard focus on the court area.
 		// When this component has the keyboard focus, key
 		// events will be handled by its key listener.
