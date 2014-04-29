@@ -102,14 +102,15 @@ public class Game implements Runnable {
 		//title
 		final JLabel title = new JLabel("      Penn Cafe");
 		title.setForeground(Color.white);
+		title.setFont(new Font("Lucida Calligraphy", Font.BOLD, 20));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		control_panel.add(title, "West");
 		
 		//score panel
+		scoreCnt.setFont(new Font("Monotype Corsiva", Font.PLAIN, 18));
 		scoreCnt.setHorizontalAlignment(SwingConstants.CENTER);
 		scoreCnt.setText("$ 0");
 		scoreCnt.setForeground(Color.white);
-		scoreCnt.setBorder(BorderFactory.createLineBorder(Color.black));
 		control_panel.add(scoreCnt, "Center");
 
 		//contains quit and instructions
@@ -119,6 +120,7 @@ public class Game implements Runnable {
 		
 		//start button
 	    final JButton start = new JButton("Start");
+	    start.setFont(new Font("Monotype Corsiva", Font.BOLD, 14));
 	    start.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		court.playing = true;
@@ -128,6 +130,7 @@ public class Game implements Runnable {
 		
 		//instructions button
 	    final JButton instructions = new JButton("Instructions");
+	    instructions.setFont(new Font("Monotype Corsiva", Font.BOLD, 14));
 	    instructions.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		JOptionPane.showMessageDialog(court, "instructions go here", "Instructions", JOptionPane.INFORMATION_MESSAGE);
@@ -138,6 +141,7 @@ public class Game implements Runnable {
 		
 		// quit button
 		final JButton quit = new JButton("Quit");
+	    quit.setFont(new Font("Monotype Corsiva", Font.BOLD, 14));
 		quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				court.quit();
@@ -162,7 +166,7 @@ public class Game implements Runnable {
 		//CREATION AREA
 		final JPanel creationArea = new JPanel(new BorderLayout());
 		creationArea.setPreferredSize(new Dimension(400, 300));
-		creationArea.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+		creationArea.setBorder(BorderFactory.createLoweredBevelBorder());
 		bottom.add(creationArea, BorderLayout.CENTER);
 		
 		//BUTTONS IN CREATION
@@ -180,7 +184,8 @@ public class Game implements Runnable {
 		creationArea.add(creationTop, BorderLayout.CENTER);
 		
 		//CREATE BUTTON
-		final JButton createButton = new JButton("CREATE");
+		final JButton createButton = new JButton("Create");
+	    createButton.setFont(new Font("Monotype Corsiva", Font.BOLD, 20));
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				canvasSubmit();
@@ -190,6 +195,7 @@ public class Game implements Runnable {
 		
 		//CLEAR BUTTON
 		final JButton clearButton = new JButton("X");
+	    clearButton.setFont(new Font("Monotype Corsiva", Font.BOLD, 20));
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//reset counter of buttons
@@ -220,7 +226,6 @@ public class Game implements Runnable {
 		final JButton normCupButton = new JButton("10", normImg);
 		normCupButton.setBackground(new Color(221,184,128));
 		normCupButton.setOpaque(true);
-		//normCupButton.setBorderPainted(false);
 		normCupButton.setBorder(BorderFactory.createLoweredBevelBorder());
 		normCupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -288,6 +293,9 @@ public class Game implements Runnable {
 		final Image resizeToGo = toGoCup.getScaledInstance(40, 50, 0);
 		ImageIcon toGoCupImg = new ImageIcon(resizeToGo);
 		final JButton toGoCupButton = new JButton("10", toGoCupImg);
+		toGoCupButton.setBackground(new Color(221,184,128));
+		toGoCupButton.setOpaque(true);
+		toGoCupButton.setBorder(BorderFactory.createLoweredBevelBorder());
 		toGoCupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(toGoCupButton.getText());
@@ -310,6 +318,9 @@ public class Game implements Runnable {
 		
 		ImageIcon espImg = new ImageIcon(espResize);
 		final JButton shortCupButton = new JButton("10", espImg);
+		shortCupButton.setBackground(new Color(221,184,128));
+		shortCupButton.setOpaque(true);
+		shortCupButton.setBorder(BorderFactory.createLoweredBevelBorder());
 		shortCupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(shortCupButton.getText());
@@ -330,9 +341,11 @@ public class Game implements Runnable {
 		}
 		final Image coffeeBeanResize = coffeeBean.getScaledInstance(50, 40, 0);
 		
-		
 		ImageIcon coffeeBeanImg = new ImageIcon(coffeeBeanResize);
 		final JButton coffeeBeanButton = new JButton("10", coffeeBeanImg);
+		coffeeBeanButton.setBackground(new Color(221,184,128));
+		coffeeBeanButton.setOpaque(true);
+		coffeeBeanButton.setBorder(BorderFactory.createLoweredBevelBorder());
 		coffeeBeanButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(coffeeBeanButton.getText());
@@ -353,9 +366,12 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image chocolateResize = chocolate.getScaledInstance(40, 60, 0);
-		
 		ImageIcon chocImg = new ImageIcon(chocolateResize);
+		
 		final JButton chocButton = new JButton("10", chocImg);
+		chocButton.setBackground(new Color(221,184,128));
+		chocButton.setOpaque(true);
+		chocButton.setBorder(BorderFactory.createLoweredBevelBorder());
 		chocButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(chocButton.getText());
@@ -376,10 +392,12 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image milkResize = milk.getScaledInstance(40, 60, 0);
-		
-		
 		ImageIcon milkImg = new ImageIcon(milkResize);
+		
 		final JButton milkButton = new JButton("10", milkImg);
+		milkButton.setBackground(new Color(221,184,128));
+		milkButton.setOpaque(true);
+		milkButton.setBorder(BorderFactory.createLoweredBevelBorder());
 		milkButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(milkButton.getText());
@@ -400,9 +418,12 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image teaResize = tea.getScaledInstance(50, 60, 0);
-		
 		ImageIcon teaImg = new ImageIcon(teaResize);
+
 		final JButton teaButton = new JButton("10", teaImg);
+		teaButton.setBackground(new Color(221,184,128));
+		teaButton.setOpaque(true);
+		teaButton.setBorder(BorderFactory.createLoweredBevelBorder());
 		teaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(teaButton.getText());
@@ -422,9 +443,12 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image creamResize = cream.getScaledInstance(50, 40, 0);
-		
 		ImageIcon creamImg = new ImageIcon(creamResize);
+		
 		final JButton creamButton = new JButton("10", creamImg);
+		creamButton.setBackground(new Color(221,184,128));
+		creamButton.setOpaque(true);
+		creamButton.setBorder(BorderFactory.createLoweredBevelBorder());
 		creamButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(creamButton.getText());
@@ -497,19 +521,38 @@ public class Game implements Runnable {
 
 		
 		//RECIPE AND PHONE
-		final JPanel interactionArea = new JPanel(new GridLayout(2, 1, 0, 30));
+		final JPanel interactionArea = new JPanel(new GridLayout(1, 1, 0, 30));
 		interactionArea.setBackground(new Color(53,26,5));
 		interactionArea.setPreferredSize(new Dimension(200, 300));
 		interactionArea.setBorder(BorderFactory.createLineBorder(Color.black));
 		bottom.add(interactionArea, BorderLayout.EAST);
 		
 		final JButton recipes = new JButton("Recipes");
+		recipes.setBackground(new Color(97,25,11));
+		recipes.setOpaque(true);
+		recipes.setBorder(BorderFactory.createLoweredBevelBorder());
+	    recipes.setFont(new Font("Monotype Corsiva", Font.BOLD, 30));
+	    recipes.setForeground(Color.white);
 		recipes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JFrame newRecipes = new JFrame();
+				newRecipes.setVisible(true);
+				newRecipes.setLocation(750,500);
+				newRecipes.setSize(new Dimension(500,500));
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				/*
 				JOptionPane recipePopUp = new JOptionPane();
 				recipePopUp.showMessageDialog(interactionArea, "RECIPEBOOK", "Recipes", JOptionPane.INFORMATION_MESSAGE);
 	            court.requestFocusInWindow();
-	            
+	            */
 			}
 		});
 		interactionArea.add(recipes, "NORTH");

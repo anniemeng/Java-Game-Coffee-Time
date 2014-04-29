@@ -133,12 +133,25 @@ public class GameCourt extends JPanel {
 	 * (Re-)set the game to its initial state.
 	 * @throws IOException 
 	 */
+	
 	public void reset() throws IOException {
-		JOptionPane.showMessageDialog(null, 
-			    "Your Boss wants $100!");
-		playing = true;
 		conveyor = new Conveyor(COURT_WIDTH, COURT_HEIGHT);
 		background = new Background (COURT_WIDTH, COURT_HEIGHT);
+		repaint();
+		
+		 JOptionPane start = new JOptionPane();
+		 UIManager UI=new UIManager();
+		 UI.put("OptionPane.background", new Color(90,53,45));
+		 UI.put("Panel.background",new Color(90,53,45));
+		 
+		 JLabel startmsg = new JLabel("Your Boss wants $100!");
+		 startmsg.setFont(new Font("Monotype Corsiva", Font.PLAIN, 18));
+		 startmsg.setForeground(Color.white);
+		 
+		start.showMessageDialog(null, startmsg, "Think you have what it takes?", 
+									JOptionPane.INFORMATION_MESSAGE, 
+									new ImageIcon(ImageIO.read(new File ("weirich.jpg")).getScaledInstance(125, 175, 0)));
+		playing = true;
 		people.start(); // MAKE SURE TO START THE TIMER!
 		removePeople.start(); // MAKE SURE TO START THE TIMER!
 		// Make sure that this component has the keyboard focus

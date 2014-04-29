@@ -31,6 +31,8 @@ public class Conveyor extends GameObj {
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(img, pos_x, pos_y, width, height, null);
+		//g.setColor(Color.DARK_GRAY);
+		//g.fillRect(0, 325, 50 ,15);
 	}
 
 }
