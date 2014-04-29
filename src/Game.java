@@ -25,12 +25,14 @@ public class Game implements Runnable {
 	
 	//DATA STRUCTURE TO STORE INGREDIENTS APPEARING IN CREATION AREA
 	private ArrayList<JLabel> ingredientArea = new ArrayList<JLabel>();		//displays ingredients selected
-	private ArrayList<JButton> areaButtons = new ArrayList<JButton>();		//tracks ingredient buttons 
+	private ArrayList<JButton> areaButtons = new ArrayList<JButton>();		//tracks ingredient buttons selected 
 	private TreeSet<String> submitted = new TreeSet<String>();				//stores creation
+	private ArrayList<JButton> allButtons = new ArrayList<JButton>();       //keeps track of all ingredient buttons
+																			//created
 	
-	private HashMap<Image, String> ingredientImgs = new HashMap<Image,String>();  //matches ingredient images 
+	private HashMap<String, Image> ingredientImgs = new HashMap<String,Image>();  //ingredient images 
 	private static HashMap<TreeSet<String>, String> recipes;				//recipe book
-	public static TreeMap<String, String> output;							//matches output to image						//output images
+	public static TreeMap<String, String> output;							//output images					
 	
 	public static JLabel scoreCnt = new JLabel();							//score counts
 	final static GameCourt court = new GameCourt(scoreCnt);
@@ -82,6 +84,16 @@ public class Game implements Runnable {
 		
 	}
 
+	//manipulate ingredient buttons
+	public void ingrButtons() {
+		for (int i = 0; i < allButtons.size(); i++) {
+			
+		}
+	}
+	
+	
+	
+	
 	//refill supplies dialog
 	public void supplies(JButton button) {
 		//restock ingredients
@@ -132,7 +144,6 @@ public class Game implements Runnable {
 		//final GameCourt court = new GameCourt();
 		court.setBorder(BorderFactory.createLineBorder(Color.black));
 		frame.add(court, BorderLayout.CENTER);
-
 		
 		// TOP PANEL
 		final JPanel control_panel = new JPanel();
@@ -203,14 +214,6 @@ public class Game implements Runnable {
 		bottom.setPreferredSize(new Dimension(1000, 300));
 		frame.add(bottom, BorderLayout.SOUTH);
 		
-		
-		// INGREDIENT BUTTONS
-		final JPanel ingredients = new JPanel(new GridLayout(2, 4, 10, 10));
-		ingredients.setPreferredSize(new Dimension(400, 300));
-		ingredients.setBackground(new Color(53,26,5));
-		bottom.add(ingredients, BorderLayout.WEST);
-		
-		
 		//CREATION AREA
 		final JPanel creationArea = new JPanel(new BorderLayout());
 		creationArea.setPreferredSize(new Dimension(400, 300));
@@ -258,9 +261,13 @@ public class Game implements Runnable {
 		});
 		creationButtons.add(clearButton);
 		
+		//INGREDIENT BUTTONS!
+		final JPanel ingredients = new JPanel(new GridLayout(2, 4, 10, 10));
+		ingredients.setPreferredSize(new Dimension(400, 300));
+		ingredients.setBackground(new Color(53,26,5));
+		bottom.add(ingredients, BorderLayout.WEST);
 		
 		//NORMAL MUG
-		//resize mug image
 		Image mug = null;
 		try {
 			mug = ImageIO.read(new File ("normalcup.png"));
@@ -268,11 +275,12 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image resizeMug = mug.getScaledInstance(50, 50, 0);
-		ingredientImgs.put(resizeMug, "mug");
+		ingredientImgs.put("mug", resizeMug);
 		
 		//create button for mug
 		ImageIcon normImg = new ImageIcon(resizeMug);
 		final JButton normCupButton = new JButton("10", normImg);
+		allButtons.add(normCupButton);
 		normCupButton.setBackground(new Color(221,184,128));
 		normCupButton.setOpaque(true);
 		normCupButton.setBorder(BorderFactory.createLoweredBevelBorder());
@@ -303,7 +311,7 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image resizeToGo = toGoCup.getScaledInstance(40, 50, 0);
-		ingredientImgs.put(resizeToGo, "togo");
+		ingredientImgs.put("togo", resizeToGo);
 		ImageIcon toGoCupImg = new ImageIcon(resizeToGo);
 		final JButton toGoCupButton = new JButton("10", toGoCupImg);
 		toGoCupButton.setBackground(new Color(221,184,128));
@@ -337,7 +345,7 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image espResize = espCup.getScaledInstance(50, 40, 0);
-		ingredientImgs.put(espResize, "espresso");
+		ingredientImgs.put("espresso", espResize);
 		ImageIcon espImg = new ImageIcon(espResize);
 		
 		final JButton shortCupButton = new JButton("10", espImg);
@@ -371,7 +379,7 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image coffeeBeanResize = coffeeBean.getScaledInstance(50, 40, 0);
-		ingredientImgs.put(coffeeBeanResize, "bean");
+		ingredientImgs.put("bean", coffeeBeanResize);
 		ImageIcon coffeeBeanImg = new ImageIcon(coffeeBeanResize);
 		
 		final JButton coffeeBeanButton = new JButton("10", coffeeBeanImg);
@@ -408,7 +416,7 @@ public class Game implements Runnable {
 		}
 		final Image chocolateResize = chocolate.getScaledInstance(40, 60, 0);
 		ImageIcon chocImg = new ImageIcon(chocolateResize);
-		ingredientImgs.put(chocolateResize, "chocolate");
+		ingredientImgs.put("chocolate", chocolateResize);
 		
 		final JButton chocButton = new JButton("10", chocImg);
 		chocButton.setBackground(new Color(221,184,128));
@@ -443,7 +451,7 @@ public class Game implements Runnable {
 		}
 		final Image milkResize = milk.getScaledInstance(40, 60, 0);
 		ImageIcon milkImg = new ImageIcon(milkResize);
-		ingredientImgs.put(milkResize, "milk");
+		ingredientImgs.put("milk", milkResize);
 		
 		final JButton milkButton = new JButton("10", milkImg);
 		milkButton.setBackground(new Color(221,184,128));
@@ -479,7 +487,7 @@ public class Game implements Runnable {
 		}
 		final Image teaResize = tea.getScaledInstance(50, 60, 0);
 		ImageIcon teaImg = new ImageIcon(teaResize);
-		ingredientImgs.put(teaResize, "tea");
+		ingredientImgs.put("tea", teaResize);
 		
 		final JButton teaButton = new JButton("10", teaImg);
 		teaButton.setBackground(new Color(221,184,128));
@@ -514,7 +522,7 @@ public class Game implements Runnable {
 		}
 		final Image creamResize = cream.getScaledInstance(50, 40, 0);
 		ImageIcon creamImg = new ImageIcon(creamResize);
-		ingredientImgs.put(creamResize, "cream");
+		ingredientImgs.put("cream", creamResize);
 		
 		final JButton creamButton = new JButton("10", creamImg);
 		creamButton.setBackground(new Color(221,184,128));
@@ -620,19 +628,17 @@ public class Game implements Runnable {
 				//NEW JFRAME OPTION
 				JFrame newRecipes = new JFrame();
 				newRecipes.setLocation(750,500);
-				newRecipes.setSize(new Dimension(500,250));
+				newRecipes.setSize(new Dimension(500,175));
 				newRecipes.getContentPane().setBackground(new Color(255,250,222));
 				
 				//TABBED OPTION PANE OPTION
 				recipeDisplay = new JTabbedPane(JTabbedPane.TOP);
-				recipeDisplay.setBackground(Color.BLACK);
-				recipeDisplay.setForeground(Color.WHITE);
 				JComponent panel1;
 				//number of separate recipes
 				for (Map.Entry<TreeSet<String>, String> entry : recipes.entrySet()) {
 					//new tab panel
 					panel1 = new JPanel();
-					panel1.setLayout(new FlowLayout());
+					panel1.setLayout(new BorderLayout());
 					
 					//diplay recipe
 					TreeSet<String> ingr = entry.getKey();
@@ -643,19 +649,21 @@ public class Game implements Runnable {
 					
 					//display final product
 					JPanel recipeBlock = new JPanel();
+					recipeBlock.setBorder(BorderFactory.createRaisedBevelBorder());
 					recipeBlock.setLocation(0,0);
+					
 					ImageIcon icon = null;
 					try {
 						icon = new ImageIcon(ImageIO.read(new File(imgName)));
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-					
 					JLabel product = new JLabel(name, icon, JLabel.CENTER);
 					recipeBlock.add(product);
 					
 					//display ingredients
-					JPanel ingredientDisp = new JPanel(new FlowLayout());
+					JPanel ingredientDisp = new JPanel(new FlowLayout(FlowLayout.LEADING, 20, 0));
+					ingredientDisp.setBorder(BorderFactory.createRaisedBevelBorder());
 					TreeSet<String> currentIngredients = null;
 			        for(Map.Entry<TreeSet<String>, String> ingredientList : recipes.entrySet()) {
 			            if(name != null && name.equals(ingredientList.getValue())) {
@@ -665,15 +673,15 @@ public class Game implements Runnable {
 			        }
 			        
 			        Iterator<String> onTreeSet = currentIngredients.iterator();
-					
 			        while (onTreeSet.hasNext()) {
-			        	Icon iconIngr = new ImageIcon(ingredientImgs.get(onTreeSet.next()));
-			        	JLabel ingredientLabel = new JLabel(onTreeSet.next(), iconIngr, JLabel.CENTER) ;
+			        	String current = onTreeSet.next();
+			        	Icon currentImg = new ImageIcon(ingredientImgs.get(current));
+			        	JLabel ingredientLabel = new JLabel(null, currentImg, JLabel.CENTER);
 			        	ingredientDisp.add(ingredientLabel);
 			        }
 			        
-					panel1.add(recipeBlock);
-					panel1.add(ingredientDisp);
+					panel1.add(recipeBlock, BorderLayout.WEST);
+					panel1.add(ingredientDisp, BorderLayout.CENTER);
 					recipeDisplay.addTab(null, icon, panel1);
 				
 				}
