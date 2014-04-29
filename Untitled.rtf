@@ -1,6 +1,7 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red127\green0\blue85;\red0\green0\blue192;\red63\green127\blue95;
+\red42\green0\blue255;}
 \margl1440\margr1440\vieww10800\viewh8400\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
@@ -30,4 +31,44 @@ vanillaButton vanilla\
 \b0 - window resize ??? (set resizable false)\
 - label buttons not showing quantity \
 - stop gameplay at 100 (only conveyor belt stops)\
+\
+\
+\pard\pardeftab720
+
+\f1\fs22 \cf0 	\cf2 private\cf0  HashMap<String, Image> \cf3 ingredientImgs\cf0  = \cf2 new\cf0  HashMap<String,Image>();  \cf4 //matches ingredient images \cf0 \
+	\cf2 private\cf0  \cf2 static\cf0  HashMap<TreeSet<String>, String> \cf3 recipes\cf0 ;				\cf4 //recipe book\cf0 \
+	\cf2 public\cf0  \cf2 static\cf0  TreeMap<String, String> \cf3 output\cf0 ;							\cf4 //matches output to image\cf0 \
+	\cf2 public\cf0  \cf2 static\cf0  String[] \cf3 images\cf0  = \cf2 new\cf0  String[5];		
+\f0\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+\pard\pardeftab720
+
+\f1\fs22 \cf0 		String[] coffeeList = \{\cf5 "mug"\cf0 , \cf5 "bean"\cf0 \};\
+		recipeBook.setRecipes(coffeeList, \cf5 "coffee"\cf0 );\
+		\
+		String[] espressoList = \{\cf5 "espresso"\cf0 , \cf5 "bean"\cf0 \};\
+		recipeBook.setRecipes(espressoList, \cf5 "espresso"\cf0 );\
+		\
+		String[] teaList = \{\cf5 "togo"\cf0 , \cf5 "tea"\cf0 \};\
+		recipeBook.setRecipes(teaList, \cf5 "tea"\cf0 );\
+		\
+		String[] mochaList = \{\cf5 "togo"\cf0 , \cf5 "bean"\cf0 , \cf5 "chocolate"\cf0 \};\
+		recipeBook.setRecipes(mochaList, \cf5 "mocha"\cf0 );\
+		\
+		String[] latteList = \{\cf5 "mug"\cf0 , \cf5 "bean"\cf0 , \cf5 "milk"\cf0 , \cf5 "cream"\cf0 \};\
+		recipeBook.setRecipes(latteList, \cf5 "latte"\cf0 );\
+		
+\f0\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+\pard\pardeftab720
+
+\f1\fs22 \cf0 		outputImgs.setOutput(\cf5 "coffee"\cf0 , \cf5 "coffee.png"\cf0 );\
+		outputImgs.setOutput(\cf5 "espresso"\cf0 , \cf5 "espresso.png"\cf0 );\
+		outputImgs.setOutput(\cf5 "mocha"\cf0 , \cf5 "mocha.png"\cf0 );\
+		outputImgs.setOutput(\cf5 "latte"\cf0 , \cf5 "latte.png"\cf0 );\
+		outputImgs.setOutput(\cf5 "tea"\cf0 , \cf5 "tea.png"\cf0 );\
+		
+\f0\fs24 \
 }

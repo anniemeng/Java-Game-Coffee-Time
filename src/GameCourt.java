@@ -54,7 +54,7 @@ public class GameCourt extends JPanel {
 	// Update interval for timer, in milliseconds
 	public static final int INTERVAL = 35;
 	public static final int customerInterval = 5000;
-	public static final int timeOut = 10000;
+	public static final int timeOut = 20000;
 	private Timer people;
 	private Timer removePeople;
 
@@ -119,7 +119,7 @@ public class GameCourt extends JPanel {
 				}
 			}
 		});
-		removePeople.setInitialDelay(10000);
+		removePeople.setInitialDelay(15000);
 		//removePeople.start(); // MAKE SURE TO START THE TIMER!
 		
 		
@@ -140,13 +140,14 @@ public class GameCourt extends JPanel {
 		repaint();
 		
 		 JOptionPane start = new JOptionPane();
+		 /*
 		 UIManager UI=new UIManager();
 		 UI.put("OptionPane.background", new Color(90,53,45));
 		 UI.put("Panel.background",new Color(90,53,45));
-		 
+		 */
 		 JLabel startmsg = new JLabel("Your Boss wants $100!");
 		 startmsg.setFont(new Font("Monotype Corsiva", Font.PLAIN, 18));
-		 startmsg.setForeground(Color.white);
+		 //startmsg.setForeground(Color.white);
 		 
 		start.showMessageDialog(null, startmsg, "Think you have what it takes?", 
 									JOptionPane.INFORMATION_MESSAGE, 
@@ -157,6 +158,18 @@ public class GameCourt extends JPanel {
 		// Make sure that this component has the keyboard focus
 		requestFocusInWindow();
 	}
+	
+	public void restart() throws IOException {
+		people.stop();
+		removePeople.stop();
+		customerList.clear();
+		onConveyor.clear();
+		counter = 0;
+		score = 0;
+		scoreCnt.setText("$" + score);
+		reset();
+	}
+	
 	
 	public void quit() {
 		System.exit(0);
@@ -192,12 +205,15 @@ public class GameCourt extends JPanel {
 							score += 10;
 							
 							if (score >= 100) {
+								scoreCnt.setText("$" + score);
 								people.stop();
 								customerList.clear();
+								onConveyor.clear();
 								repaint();
 								JOptionPane.showMessageDialog(null, 
 										"YOU WIN! You are now a barista pro!");
 								playing = false;
+								break;
 							}
 							
 							scoreCnt.setText("$" + score);

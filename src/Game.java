@@ -27,6 +27,7 @@ public class Game implements Runnable {
 	private ArrayList<JButton> areaButtons = new ArrayList<JButton>();		//tracks ingredient buttons 
 	private TreeSet<String> submitted = new TreeSet<String>();				//stores creation
 	
+	private HashMap<String, Image> ingredientImgs = new HashMap<String,Image>();  //matches ingredient images 
 	private static HashMap<TreeSet<String>, String> recipes;				//recipe book
 	public static TreeMap<String, String> output;							//matches output to image
 	public static String[] images = new String[5];							//output images
@@ -80,11 +81,52 @@ public class Game implements Runnable {
 		
 	}
 
+	//refill supplies dialog
+	public void supplies(JButton button) {
+		//restock ingredients
+		int label = Integer.parseInt(button.getText());
+		if (label == 0) {
+			//choose store to buy from
+			int option = (int) (Math.random() * 3);
+			Object[] possibilities = {"FroGo", "Gourmet Grocer", "CVS"};
+			String store = possibilities[option].toString();
+			
+			//dialog with options
+			try {
+				String selection = (String)JOptionPane.showInputDialog(
+									frame,
+									"Please buy ingredients from "
+									+ store,
+									"Grocery Shopping!",
+									JOptionPane.PLAIN_MESSAGE,
+									new ImageIcon(Customers.getImage()),
+									possibilities,
+									"FroGo");
+				
+				//chose right item
+				if ((selection != null) && (selection == store)) {
+					button.setText("10");
+				}
+			
+				//failed to choose right item
+				else {
+					JOptionPane.showMessageDialog(frame,
+					    "WRONG SELECTION: please try again");
+				}
+			} catch (HeadlessException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			}
+	}
+	
+	
 	public void run() {
 
 		// Top-level frame in which game components live
 		frame.setLocation(200, 200);
-
+		
 		// Main playing area
 		//final GameCourt court = new GameCourt();
 		court.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -118,15 +160,20 @@ public class Game implements Runnable {
 		topButtons.setBackground(new Color(34,17,22));
 		control_panel.add(topButtons, "East");
 		
-		//start button
-	    final JButton start = new JButton("Start");
-	    start.setFont(new Font("Monotype Corsiva", Font.BOLD, 14));
-	    start.addActionListener(new ActionListener() {
+		//restart button
+	    final JButton restart = new JButton("Restart");
+	    restart.setFont(new Font("Monotype Corsiva", Font.BOLD, 14));
+	    restart.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		court.playing = true;
+	    		try {
+					canvasClear();
+					court.restart();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 	         }
 	    });
-	    topButtons.add(start);
+	    topButtons.add(restart);
 		
 		//instructions button
 	    final JButton instructions = new JButton("Instructions");
@@ -220,6 +267,7 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image resizeMug = mug.getScaledInstance(50, 50, 0);
+		ingredientImgs.put("mug", resizeMug);
 		
 		//create button for mug
 		ImageIcon normImg = new ImageIcon(resizeMug);
@@ -240,44 +288,7 @@ public class Game implements Runnable {
 		normCupButton.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent m) {
 				if (SwingUtilities.isRightMouseButton(m)) {
-					
-					//restock ingredients
-					int label = Integer.parseInt(normCupButton.getText());
-					if (label == 0) {
-						//choose store to buy from
-						int option = (int) (Math.random() * 3);
-						Object[] possibilities = {"FroGo", "Gourmet Grocer", "CVS"};
-						String store = possibilities[option].toString();
-						
-						//dialog with options
-						try {
-							String selection = (String)JOptionPane.showInputDialog(
-												frame,
-												"Please buy ingredients from "
-												+ store,
-												"Grocery Shopping!",
-												JOptionPane.PLAIN_MESSAGE,
-												new ImageIcon(Customers.getImage()),
-												possibilities,
-												"FroGo");
-							
-							//chose right item
-							if ((selection != null) && (selection == store)) {
-								normCupButton.setText("10");
-							}
-						
-							//failed to choose right item
-							else {
-								JOptionPane.showMessageDialog(frame,
-								    "WRONG SELECTION: please try again");
-							}
-						
-					} catch (HeadlessException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					}
+					supplies(normCupButton);
 				}
 			}
 		});
@@ -291,6 +302,7 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image resizeToGo = toGoCup.getScaledInstance(40, 50, 0);
+		ingredientImgs.put("togo", resizeToGo);
 		ImageIcon toGoCupImg = new ImageIcon(resizeToGo);
 		final JButton toGoCupButton = new JButton("10", toGoCupImg);
 		toGoCupButton.setBackground(new Color(221,184,128));
@@ -305,6 +317,15 @@ public class Game implements Runnable {
 				}
 			}
 		});
+		
+		toGoCupButton.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent m) {
+				if (SwingUtilities.isRightMouseButton(m)) {
+					supplies(toGoCupButton);
+				}
+			}
+		});
+		
 		ingredients.add(toGoCupButton);
 		
 		//SHORT MUG
@@ -315,8 +336,9 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image espResize = espCup.getScaledInstance(50, 40, 0);
-		
+		ingredientImgs.put("espresso", espResize);
 		ImageIcon espImg = new ImageIcon(espResize);
+		
 		final JButton shortCupButton = new JButton("10", espImg);
 		shortCupButton.setBackground(new Color(221,184,128));
 		shortCupButton.setOpaque(true);
@@ -330,6 +352,14 @@ public class Game implements Runnable {
 				}
 			}
 		});
+		
+		shortCupButton.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent m) {
+				if (SwingUtilities.isRightMouseButton(m)) {
+					supplies(shortCupButton);
+				}
+			}
+		});
 		ingredients.add(shortCupButton);
 		
 		//COFFEE BEANS 
@@ -340,8 +370,9 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image coffeeBeanResize = coffeeBean.getScaledInstance(50, 40, 0);
-		
+		ingredientImgs.put("bean", coffeeBeanResize);
 		ImageIcon coffeeBeanImg = new ImageIcon(coffeeBeanResize);
+		
 		final JButton coffeeBeanButton = new JButton("10", coffeeBeanImg);
 		coffeeBeanButton.setBackground(new Color(221,184,128));
 		coffeeBeanButton.setOpaque(true);
@@ -355,6 +386,15 @@ public class Game implements Runnable {
 				}
 			}
 		});
+		
+		coffeeBeanButton.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent m) {
+				if (SwingUtilities.isRightMouseButton(m)) {
+					supplies(coffeeBeanButton);
+				}
+			}
+		});
+		
 		ingredients.add(coffeeBeanButton);
 		
 		
@@ -367,6 +407,7 @@ public class Game implements Runnable {
 		}
 		final Image chocolateResize = chocolate.getScaledInstance(40, 60, 0);
 		ImageIcon chocImg = new ImageIcon(chocolateResize);
+		ingredientImgs.put("chocolate", chocolateResize);
 		
 		final JButton chocButton = new JButton("10", chocImg);
 		chocButton.setBackground(new Color(221,184,128));
@@ -382,6 +423,14 @@ public class Game implements Runnable {
 			}
 		});
 		
+		chocButton.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent m) {
+				if (SwingUtilities.isRightMouseButton(m)) {
+					supplies(chocButton);
+				}
+			}
+		});
+		
 		ingredients.add(chocButton);
 		
 		//MILK
@@ -393,6 +442,7 @@ public class Game implements Runnable {
 		}
 		final Image milkResize = milk.getScaledInstance(40, 60, 0);
 		ImageIcon milkImg = new ImageIcon(milkResize);
+		ingredientImgs.put("milk", milkResize);
 		
 		final JButton milkButton = new JButton("10", milkImg);
 		milkButton.setBackground(new Color(221,184,128));
@@ -407,6 +457,15 @@ public class Game implements Runnable {
 				}
 			}
 		});
+		
+		milkButton.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent m) {
+				if (SwingUtilities.isRightMouseButton(m)) {
+					supplies(milkButton);
+				}
+			}
+		});
+		
 		ingredients.add(milkButton);
 		
 		
@@ -419,7 +478,8 @@ public class Game implements Runnable {
 		}
 		final Image teaResize = tea.getScaledInstance(50, 60, 0);
 		ImageIcon teaImg = new ImageIcon(teaResize);
-
+		ingredientImgs.put("tea", teaResize);
+		
 		final JButton teaButton = new JButton("10", teaImg);
 		teaButton.setBackground(new Color(221,184,128));
 		teaButton.setOpaque(true);
@@ -433,6 +493,15 @@ public class Game implements Runnable {
 				}
 			}
 		});
+		
+		teaButton.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent m) {
+				if (SwingUtilities.isRightMouseButton(m)) {
+					supplies(teaButton);
+				}
+			}
+		});
+		
 		ingredients.add(teaButton);
 		
 		//WHIPPED CREAM
@@ -444,6 +513,7 @@ public class Game implements Runnable {
 		}
 		final Image creamResize = cream.getScaledInstance(50, 40, 0);
 		ImageIcon creamImg = new ImageIcon(creamResize);
+		ingredientImgs.put("cream", creamResize);
 		
 		final JButton creamButton = new JButton("10", creamImg);
 		creamButton.setBackground(new Color(221,184,128));
@@ -458,6 +528,15 @@ public class Game implements Runnable {
 				}
 			}
 		});
+		
+		creamButton.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent m) {
+				if (SwingUtilities.isRightMouseButton(m)) {
+					supplies(creamButton);
+				}
+			}
+		});
+		
 		ingredients.add(creamButton);
 		
 		/*
@@ -527,21 +606,49 @@ public class Game implements Runnable {
 		interactionArea.setBorder(BorderFactory.createLineBorder(Color.black));
 		bottom.add(interactionArea, BorderLayout.EAST);
 		
-		final JButton recipes = new JButton("Recipes");
-		recipes.setBackground(new Color(97,25,11));
-		recipes.setOpaque(true);
-		recipes.setBorder(BorderFactory.createLoweredBevelBorder());
-	    recipes.setFont(new Font("Monotype Corsiva", Font.BOLD, 30));
-	    recipes.setForeground(Color.white);
-		recipes.addActionListener(new ActionListener() {
+		final JButton recipesButton = new JButton("Recipes");
+		recipesButton.setBackground(new Color(97,25,11));
+		recipesButton.setOpaque(true);
+		recipesButton.setBorder(BorderFactory.createLoweredBevelBorder());
+		recipesButton.setFont(new Font("Monotype Corsiva", Font.BOLD, 30));
+		recipesButton.setForeground(Color.white);
+		recipesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame newRecipes = new JFrame();
-				newRecipes.setVisible(true);
 				newRecipes.setLocation(750,500);
 				newRecipes.setSize(new Dimension(500,500));
+				newRecipes.getContentPane().setBackground(new Color(255,250,222));
 				
+				JPanel recipesDiff = new JPanel();
+				recipesDiff.setLayout(new BoxLayout(recipesDiff, BoxLayout.Y_AXIS));
 				
+				//number of separate recipes
+				for (Map.Entry<TreeSet<String>, String> entry : recipes.entrySet()) {
+					TreeSet<String> ingr = entry.getKey();
+					String name = entry.getValue();
+					System.out.println(name);
+					String imgName = output.get(name);
+					System.out.println(imgName);
+					
+					JPanel recipeBlock = new JPanel(new FlowLayout());
+					recipeBlock.setLocation(0,0);
+					ImageIcon icon = null;
+					try {
+						icon = new ImageIcon(ImageIO.read(new File("latte.png")));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					
+					JLabel product = new JLabel(name, icon, JLabel.CENTER);
+					recipeBlock.add(product);
+					recipesDiff.add(recipeBlock);
+					
+					newRecipes.setVisible(true);
+				}
 				
+				//newRecipes.pack();
+				newRecipes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				newRecipes.setVisible(true);
 				
 				
 				
@@ -555,7 +662,7 @@ public class Game implements Runnable {
 	            */
 			}
 		});
-		interactionArea.add(recipes, "NORTH");
+		interactionArea.add(recipesButton, "NORTH");
 		
 	 
 		
