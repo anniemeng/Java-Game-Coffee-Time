@@ -6,7 +6,11 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.util.ArrayList;
@@ -25,6 +29,7 @@ import java.util.TreeSet;
 public class GameCourt extends JPanel {
 
 	private Conveyor conveyor;
+	private Background background;
 	private ArrayList<ConveyorItem> onConveyor = new ArrayList<ConveyorItem>();
 	private ArrayList<Customers> customerList = new ArrayList<Customers>();
 	private int counter = 0;
@@ -51,6 +56,7 @@ public class GameCourt extends JPanel {
 	public static final int customerInterval = 5000;
 	public static final int timeOut = 10000;
 	private Timer people;
+	private Timer removePeople;
 
 	public GameCourt(JLabel scoreCnt) {
 		this.scoreCnt = scoreCnt;
@@ -101,11 +107,11 @@ public class GameCourt extends JPanel {
 			}
 		});
 		people.setInitialDelay(5000);
-		people.start(); // MAKE SURE TO START THE TIMER!
+		//people.start(); // MAKE SURE TO START THE TIMER!
 		
 		
 		//time out for customers
-		Timer removePeople = new Timer(timeOut, new ActionListener() {
+		removePeople = new Timer(timeOut, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!customerList.isEmpty()) {
 					customerList.remove(0);
@@ -114,7 +120,7 @@ public class GameCourt extends JPanel {
 			}
 		});
 		removePeople.setInitialDelay(10000);
-		removePeople.start(); // MAKE SURE TO START THE TIMER!
+		//removePeople.start(); // MAKE SURE TO START THE TIMER!
 		
 		
 		// Enable keyboard focus on the court area.
@@ -125,12 +131,16 @@ public class GameCourt extends JPanel {
 
 	/**
 	 * (Re-)set the game to its initial state.
+	 * @throws IOException 
 	 */
-	public void reset() {
+	public void reset() throws IOException {
 		JOptionPane.showMessageDialog(null, 
 			    "Your Boss wants $100!");
 		playing = true;
 		conveyor = new Conveyor(COURT_WIDTH, COURT_HEIGHT);
+		background = new Background (COURT_WIDTH, COURT_HEIGHT);
+		people.start(); // MAKE SURE TO START THE TIMER!
+		removePeople.start(); // MAKE SURE TO START THE TIMER!
 		// Make sure that this component has the keyboard focus
 		requestFocusInWindow();
 	}
@@ -162,9 +172,6 @@ public class GameCourt extends JPanel {
 						int upperBound = customerList.get(j).pos_x + customerList.get(j).sizeX;
 						int lowerBound = customerList.get(j).pos_x + 50;
 						
-						//System.out.println(onConveyor.get(i).name);
-						//System.out.println(customerList.get(j).order);
-						
 						if (onConveyor.get(i).img_file == customerList.get(j).orderImg && (drinkLoc > lowerBound && drinkLoc < upperBound)) {
 							onConveyor.remove(i);
 							customerList.remove(j);
@@ -172,11 +179,12 @@ public class GameCourt extends JPanel {
 							score += 10;
 							
 							if (score >= 100) {
+								people.stop();
+								customerList.clear();
+								repaint();
 								JOptionPane.showMessageDialog(null, 
 										"YOU WIN! You are now a barista pro!");
-								//scoreCnt.setText("YOU WIN! You are now a barista pro!");
 								playing = false;
-								people.stop();
 							}
 							
 							scoreCnt.setText("$" + score);
@@ -192,11 +200,11 @@ public class GameCourt extends JPanel {
 
 	
 	@Override
-	public void paintComponent(Graphics g) {
-		
+	public void paintComponent(Graphics g) {		
 		super.paintComponent(g);
+		background.draw(g);
 		conveyor.draw(g);
-		
+
 		//draw customers
 		if (!customerList.isEmpty()) {
 			for (int i = 0; i < customerList.size(); i++) {

@@ -14,6 +14,7 @@ import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 
 
 /**
@@ -92,23 +93,28 @@ public class Game implements Runnable {
 		
 		// TOP PANEL
 		final JPanel control_panel = new JPanel();
+		control_panel.setBackground(new Color(34,17,22));
 		BorderLayout top = new BorderLayout();
 		top.setHgap(50);
 		control_panel.setLayout(top);
 		frame.add(control_panel, BorderLayout.NORTH);
 		
 		//title
-		final JLabel title = new JLabel("Penn Cafe");
+		final JLabel title = new JLabel("      Penn Cafe");
+		title.setForeground(Color.white);
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		control_panel.add(title, "West");
 		
 		//score panel
+		scoreCnt.setHorizontalAlignment(SwingConstants.CENTER);
 		scoreCnt.setText("$ 0");
+		scoreCnt.setForeground(Color.white);
 		scoreCnt.setBorder(BorderFactory.createLineBorder(Color.black));
 		control_panel.add(scoreCnt, "Center");
 
 		//contains quit and instructions
 		final JPanel topButtons = new JPanel(new FlowLayout());
+		topButtons.setBackground(new Color(34,17,22));
 		control_panel.add(topButtons, "East");
 		
 		//start button
@@ -149,23 +155,26 @@ public class Game implements Runnable {
 		// INGREDIENT BUTTONS
 		final JPanel ingredients = new JPanel(new GridLayout(2, 4, 10, 10));
 		ingredients.setPreferredSize(new Dimension(400, 300));
+		ingredients.setBackground(new Color(53,26,5));
 		bottom.add(ingredients, BorderLayout.WEST);
 		
 		
 		//CREATION AREA
 		final JPanel creationArea = new JPanel(new BorderLayout());
 		creationArea.setPreferredSize(new Dimension(400, 300));
-		creationArea.setBorder(BorderFactory.createLineBorder(Color.black));
+		creationArea.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		bottom.add(creationArea, BorderLayout.CENTER);
 		
 		//BUTTONS IN CREATION
 		final JPanel creationButtons = new JPanel(new FlowLayout());
-		creationButtons.setBorder(BorderFactory.createLineBorder(Color.black));
+		creationButtons.setBackground(new Color(34,17,22));
+		creationButtons.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 		creationArea.add(creationButtons, BorderLayout.PAGE_END);
 		
 		//CREATION AREA DISPLAY
 		final JPanel creationTop = new JPanel();
 		topPanelChange = creationTop;
+		creationTop.setBackground(new Color(237, 219, 166));
 		creationTop.setBorder(BorderFactory.createLineBorder(Color.black));
 		creationTop.setLayout(new FlowLayout()); 
 		creationArea.add(creationTop, BorderLayout.CENTER);
@@ -209,6 +218,10 @@ public class Game implements Runnable {
 		//create button for mug
 		ImageIcon normImg = new ImageIcon(resizeMug);
 		final JButton normCupButton = new JButton("10", normImg);
+		normCupButton.setBackground(new Color(221,184,128));
+		normCupButton.setOpaque(true);
+		//normCupButton.setBorderPainted(false);
+		normCupButton.setBorder(BorderFactory.createLoweredBevelBorder());
 		normCupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(normCupButton.getText());
@@ -485,6 +498,7 @@ public class Game implements Runnable {
 		
 		//RECIPE AND PHONE
 		final JPanel interactionArea = new JPanel(new GridLayout(2, 1, 0, 30));
+		interactionArea.setBackground(new Color(53,26,5));
 		interactionArea.setPreferredSize(new Dimension(200, 300));
 		interactionArea.setBorder(BorderFactory.createLineBorder(Color.black));
 		bottom.add(interactionArea, BorderLayout.EAST);
@@ -508,7 +522,11 @@ public class Game implements Runnable {
 		frame.setVisible(true);
 
 		// Start game
-		court.reset();
+		try {
+			court.reset();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	/*

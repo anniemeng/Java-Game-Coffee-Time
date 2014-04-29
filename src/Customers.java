@@ -42,9 +42,8 @@ public class Customers extends GameObj {
 		g.drawImage(img, pos_x, pos_y, width, height, null);
 		try {
 			drink = ImageIO.read(new File(orderImg));
-			g.drawImage(drink, pos_x, 0, width/2, height/4, null);
+			g.drawImage(drink, pos_x, 5, width/2, height/4, null);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
