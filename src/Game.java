@@ -646,8 +646,6 @@ public class Game implements Runnable {
 					newRecipes.setVisible(true);
 				}
 				
-				//newRecipes.pack();
-				newRecipes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				newRecipes.setVisible(true);
 				
 				
