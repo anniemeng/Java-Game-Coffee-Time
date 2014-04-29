@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -27,14 +28,14 @@ public class Game implements Runnable {
 	private ArrayList<JButton> areaButtons = new ArrayList<JButton>();		//tracks ingredient buttons 
 	private TreeSet<String> submitted = new TreeSet<String>();				//stores creation
 	
-	private HashMap<String, Image> ingredientImgs = new HashMap<String,Image>();  //matches ingredient images 
+	private HashMap<Image, String> ingredientImgs = new HashMap<Image,String>();  //matches ingredient images 
 	private static HashMap<TreeSet<String>, String> recipes;				//recipe book
-	public static TreeMap<String, String> output;							//matches output to image
-	public static String[] images = new String[5];							//output images
+	public static TreeMap<String, String> output;							//matches output to image						//output images
 	
 	public static JLabel scoreCnt = new JLabel();							//score counts
 	final static GameCourt court = new GameCourt(scoreCnt);
 	private JPanel topPanelChange;
+	private JTabbedPane recipeDisplay;
 	private final JFrame frame = new JFrame("Study Break");;
 	
 	//keep track of ingredients selected and displays
@@ -267,7 +268,7 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image resizeMug = mug.getScaledInstance(50, 50, 0);
-		ingredientImgs.put("mug", resizeMug);
+		ingredientImgs.put(resizeMug, "mug");
 		
 		//create button for mug
 		ImageIcon normImg = new ImageIcon(resizeMug);
@@ -302,7 +303,7 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image resizeToGo = toGoCup.getScaledInstance(40, 50, 0);
-		ingredientImgs.put("togo", resizeToGo);
+		ingredientImgs.put(resizeToGo, "togo");
 		ImageIcon toGoCupImg = new ImageIcon(resizeToGo);
 		final JButton toGoCupButton = new JButton("10", toGoCupImg);
 		toGoCupButton.setBackground(new Color(221,184,128));
@@ -336,7 +337,7 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image espResize = espCup.getScaledInstance(50, 40, 0);
-		ingredientImgs.put("espresso", espResize);
+		ingredientImgs.put(espResize, "espresso");
 		ImageIcon espImg = new ImageIcon(espResize);
 		
 		final JButton shortCupButton = new JButton("10", espImg);
@@ -370,7 +371,7 @@ public class Game implements Runnable {
 			e1.printStackTrace();
 		}
 		final Image coffeeBeanResize = coffeeBean.getScaledInstance(50, 40, 0);
-		ingredientImgs.put("bean", coffeeBeanResize);
+		ingredientImgs.put(coffeeBeanResize, "bean");
 		ImageIcon coffeeBeanImg = new ImageIcon(coffeeBeanResize);
 		
 		final JButton coffeeBeanButton = new JButton("10", coffeeBeanImg);
@@ -407,7 +408,7 @@ public class Game implements Runnable {
 		}
 		final Image chocolateResize = chocolate.getScaledInstance(40, 60, 0);
 		ImageIcon chocImg = new ImageIcon(chocolateResize);
-		ingredientImgs.put("chocolate", chocolateResize);
+		ingredientImgs.put(chocolateResize, "chocolate");
 		
 		final JButton chocButton = new JButton("10", chocImg);
 		chocButton.setBackground(new Color(221,184,128));
@@ -442,7 +443,7 @@ public class Game implements Runnable {
 		}
 		final Image milkResize = milk.getScaledInstance(40, 60, 0);
 		ImageIcon milkImg = new ImageIcon(milkResize);
-		ingredientImgs.put("milk", milkResize);
+		ingredientImgs.put(milkResize, "milk");
 		
 		final JButton milkButton = new JButton("10", milkImg);
 		milkButton.setBackground(new Color(221,184,128));
@@ -478,7 +479,7 @@ public class Game implements Runnable {
 		}
 		final Image teaResize = tea.getScaledInstance(50, 60, 0);
 		ImageIcon teaImg = new ImageIcon(teaResize);
-		ingredientImgs.put("tea", teaResize);
+		ingredientImgs.put(teaResize, "tea");
 		
 		final JButton teaButton = new JButton("10", teaImg);
 		teaButton.setBackground(new Color(221,184,128));
@@ -513,7 +514,7 @@ public class Game implements Runnable {
 		}
 		final Image creamResize = cream.getScaledInstance(50, 40, 0);
 		ImageIcon creamImg = new ImageIcon(creamResize);
-		ingredientImgs.put("cream", creamResize);
+		ingredientImgs.put(creamResize, "cream");
 		
 		final JButton creamButton = new JButton("10", creamImg);
 		creamButton.setBackground(new Color(221,184,128));
@@ -614,50 +615,72 @@ public class Game implements Runnable {
 		recipesButton.setForeground(Color.white);
 		recipesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				//NEW JFRAME OPTION
 				JFrame newRecipes = new JFrame();
 				newRecipes.setLocation(750,500);
-				newRecipes.setSize(new Dimension(500,500));
+				newRecipes.setSize(new Dimension(500,250));
 				newRecipes.getContentPane().setBackground(new Color(255,250,222));
 				
-				JPanel recipesDiff = new JPanel();
-				recipesDiff.setLayout(new BoxLayout(recipesDiff, BoxLayout.Y_AXIS));
-				
+				//TABBED OPTION PANE OPTION
+				recipeDisplay = new JTabbedPane(JTabbedPane.TOP);
+				recipeDisplay.setBackground(Color.BLACK);
+				recipeDisplay.setForeground(Color.WHITE);
+				JComponent panel1;
 				//number of separate recipes
 				for (Map.Entry<TreeSet<String>, String> entry : recipes.entrySet()) {
+					//new tab panel
+					panel1 = new JPanel();
+					panel1.setLayout(new FlowLayout());
+					
+					//diplay recipe
 					TreeSet<String> ingr = entry.getKey();
 					String name = entry.getValue();
 					System.out.println(name);
 					String imgName = output.get(name);
 					System.out.println(imgName);
 					
-					JPanel recipeBlock = new JPanel(new FlowLayout());
+					//display final product
+					JPanel recipeBlock = new JPanel();
 					recipeBlock.setLocation(0,0);
 					ImageIcon icon = null;
 					try {
-						icon = new ImageIcon(ImageIO.read(new File("latte.png")));
+						icon = new ImageIcon(ImageIO.read(new File(imgName)));
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 					
 					JLabel product = new JLabel(name, icon, JLabel.CENTER);
 					recipeBlock.add(product);
-					recipesDiff.add(recipeBlock);
 					
-					newRecipes.setVisible(true);
+					//display ingredients
+					JPanel ingredientDisp = new JPanel(new FlowLayout());
+					TreeSet<String> currentIngredients = null;
+			        for(Map.Entry<TreeSet<String>, String> ingredientList : recipes.entrySet()) {
+			            if(name != null && name.equals(ingredientList.getValue())) {
+			                currentIngredients = ingredientList.getKey();
+			                break;
+			            }
+			        }
+			        
+			        Iterator<String> onTreeSet = currentIngredients.iterator();
+					
+			        while (onTreeSet.hasNext()) {
+			        	Icon iconIngr = new ImageIcon(ingredientImgs.get(onTreeSet.next()));
+			        	JLabel ingredientLabel = new JLabel(onTreeSet.next(), iconIngr, JLabel.CENTER) ;
+			        	ingredientDisp.add(ingredientLabel);
+			        }
+			        
+					panel1.add(recipeBlock);
+					panel1.add(ingredientDisp);
+					recipeDisplay.addTab(null, icon, panel1);
+				
 				}
-				
+				recipeDisplay.setVisible(true);
+				newRecipes.setContentPane(recipeDisplay);
 				newRecipes.setVisible(true);
-				
-				
-				
-				
-				
-				
-				/*
-				JOptionPane recipePopUp = new JOptionPane();
-				recipePopUp.showMessageDialog(interactionArea, "RECIPEBOOK", "Recipes", JOptionPane.INFORMATION_MESSAGE);
-	            court.requestFocusInWindow();
-	            */
+				court.requestFocusInWindow();
 			}
 		});
 		interactionArea.add(recipesButton, "NORTH");
@@ -704,6 +727,10 @@ public class Game implements Runnable {
 		String[] latteList = {"mug", "bean", "milk", "cream"};
 		recipeBook.setRecipes(latteList, "latte");
 		
+		/*
+		String[] test = {"mug", "milk"};
+		recipeBook.setRecipes(test, "test");
+		*/
 		//change Recipes to HashMap
 		recipes = recipeBook.getBook();
 		
@@ -716,18 +743,10 @@ public class Game implements Runnable {
 		outputImgs.setOutput("mocha", "mocha.png");
 		outputImgs.setOutput("latte", "latte.png");
 		outputImgs.setOutput("tea", "tea.png");
+		//outputImgs.setOutput("test", "coffeecup.png");
 		
 		//change Output to TreeMap
 		output = outputImgs.getOutput();
-		
-		//temp = output.values().toArray();
-		
-		//GET ARRAY OF IMAGES FOR MATCHING LATER 
-		/*
-		 for (int i = 0; i <temp.length; i++) {
-			images[i] = temp[i].toString();
-		}
-		 */
 
 		SwingUtilities.invokeLater(new Game());
 	}

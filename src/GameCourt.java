@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -95,11 +96,24 @@ public class GameCourt extends JPanel {
 				
 				//change possible recipes
 				int recipeNum = (int) (Math.random() * 5);
-				String[] recipeImgs = {"coffee.png", "espresso.png", "mocha.png", "latte.png", "tea.png"};
-				String[] names = {"coffee", "espresso", "mocha", "latte", "tea"};
+				String [] names = Game.output.keySet().toArray(new String[0]);
+				/*
+				for (Map.Entry<String, String> entry : Game.output.entrySet()) {
+					String name = entry.getKey();
+					String file = entry.getValue();
+				}
+				*/
+				
+				String currentName = names[recipeNum];
+				String currentFile = Game.output.get(currentName);
+				
+				//String[] recipeImgs = {"coffee.png", "espresso.png", "mocha.png", "latte.png", "tea.png"};
+				//recipeImgs[recipeNum]
+				//names[recipeNum]
+				//String[] names = {"coffee", "espresso", "mocha", "latte", "tea"};
 				
 				//create new customer
-				Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, xLoc, names[recipeNum], recipeImgs[recipeNum]);
+				Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, xLoc, currentName, currentFile);
 				customerList.add(current);
 				repaint();
 				counter += 1;
