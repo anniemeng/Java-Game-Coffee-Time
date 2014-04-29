@@ -22,21 +22,20 @@ import javax.swing.*;
 public class Game implements Runnable {
 	
 	//DATA STRUCTURE TO STORE INGREDIENTS APPEARING IN CREATION AREA
-	//ARRAYLIST
-
-	private ArrayList<JLabel> ingredientArea = new ArrayList<JLabel>();
-	private ArrayList<JButton> areaButtons = new ArrayList<JButton>();
-	private TreeSet<String> submitted = new TreeSet<String>();
+	private ArrayList<JLabel> ingredientArea = new ArrayList<JLabel>();		//displays ingredients selected
+	private ArrayList<JButton> areaButtons = new ArrayList<JButton>();		//tracks ingredient buttons 
+	private TreeSet<String> submitted = new TreeSet<String>();				//stores creation
 	
-	private static HashMap<TreeSet<String>, String> recipes;
-	public static TreeMap<String, String> output;
-	//private static Object[] temp = new Object[5];
-	public static String[] images = new String[5];
+	private static HashMap<TreeSet<String>, String> recipes;				//recipe book
+	public static TreeMap<String, String> output;							//matches output to image
+	public static String[] images = new String[5];							//output images
 	
+	public static JLabel scoreCnt = new JLabel();							//score counts
+	final static GameCourt court = new GameCourt(scoreCnt);
 	private JPanel topPanelChange;
 	private final JFrame frame = new JFrame("Study Break");;
 	
-	//METHODS TO MANIPULATE ARRAYLIST
+	//keep track of ingredients selected and displays
 	public void addIngredient(Image img, JButton button, String name) {
 		submitted.add(name);
 		areaButtons.add(button);
@@ -46,22 +45,16 @@ public class Game implements Runnable {
 		added.setPreferredSize(new Dimension(50, 50));
 		ingredientArea.add(added);
 		
-		// add jlabels to panel
+		// add jlabels 
 		for (int i = 0; i < ingredientArea.size(); i++) {
 			topPanelChange.add(ingredientArea.get(i));
 		}
-		
-		// then display 
+		 
 		topPanelChange.repaint();
 		frame.setVisible(true);
 	}
 	
-	//temp
-	public void addIngredient(JPanel current, JFrame frame, String text) {
-
-	}
-	
-	//if clear button clicked
+	//clear button clicked
 	public void canvasClear() {
 		submitted.clear();
 		ingredientArea.clear();
@@ -71,7 +64,7 @@ public class Game implements Runnable {
 		frame.setVisible(true);
 	}
 	
-	//if create button clicked
+	//create button clicked
 	public void canvasSubmit() {		
 		if (recipes.containsKey(submitted)) {
 			String nameDrink = recipes.get(submitted);
@@ -85,9 +78,6 @@ public class Game implements Runnable {
 		}
 		
 	}
-	//score count
-	final static JLabel scoreCnt = new JLabel();
-	final static GameCourt court = new GameCourt(scoreCnt);
 
 	public void run() {
 
@@ -112,11 +102,6 @@ public class Game implements Runnable {
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		control_panel.add(title, "West");
 		
-		/*score label
-		final JLabel score = new JLabel("$");
-		control_panel.add(score, "Center");
-		*/
-		
 		//score panel
 		scoreCnt.setText("$ 0");
 		scoreCnt.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -125,6 +110,15 @@ public class Game implements Runnable {
 		//contains quit and instructions
 		final JPanel topButtons = new JPanel(new FlowLayout());
 		control_panel.add(topButtons, "East");
+		
+		//start button
+	    final JButton start = new JButton("Start");
+	    start.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		court.playing = true;
+	         }
+	    });
+	    topButtons.add(start);
 		
 		//instructions button
 	    final JButton instructions = new JButton("Instructions");
@@ -153,7 +147,7 @@ public class Game implements Runnable {
 		
 		
 		// INGREDIENT BUTTONS
-		final JPanel ingredients = new JPanel(new GridLayout(3, 4, 10, 10));
+		final JPanel ingredients = new JPanel(new GridLayout(2, 4, 10, 10));
 		ingredients.setPreferredSize(new Dimension(400, 300));
 		bottom.add(ingredients, BorderLayout.WEST);
 		
@@ -228,12 +222,45 @@ public class Game implements Runnable {
 		normCupButton.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent m) {
 				if (SwingUtilities.isRightMouseButton(m)) {
+					
+					//restock ingredients
 					int label = Integer.parseInt(normCupButton.getText());
 					if (label == 0) {
-						normCupButton.setText("10");
+						//choose store to buy from
+						int option = (int) (Math.random() * 3);
+						Object[] possibilities = {"FroGo", "Gourmet Grocer", "CVS"};
+						String store = possibilities[option].toString();
+						
+						//dialog with options
+						try {
+							String selection = (String)JOptionPane.showInputDialog(
+												frame,
+												"Please buy ingredients from "
+												+ store,
+												"Grocery Shopping!",
+												JOptionPane.PLAIN_MESSAGE,
+												new ImageIcon(Customers.getImage()),
+												possibilities,
+												"FroGo");
+							
+							//chose right item
+							if ((selection != null) && (selection == store)) {
+								normCupButton.setText("10");
+							}
+						
+							//failed to choose right item
+							else {
+								JOptionPane.showMessageDialog(frame,
+								    "WRONG SELECTION: please try again");
+							}
+						
+					} catch (HeadlessException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 					}
 				}
-				
 			}
 		});
 		ingredients.add(normCupButton);
@@ -395,7 +422,8 @@ public class Game implements Runnable {
 			}
 		});
 		ingredients.add(creamButton);
-
+		
+		/*
 
 		//ICE
 		ImageIcon iceImg = new ImageIcon("coffeecup.jpg");
@@ -452,7 +480,7 @@ public class Game implements Runnable {
 		
 		ingredients.add(vanillaButton);	
 		
-
+	*/
 
 		
 		//RECIPE AND PHONE

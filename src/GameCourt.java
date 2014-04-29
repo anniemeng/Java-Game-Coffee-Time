@@ -49,7 +49,8 @@ public class GameCourt extends JPanel {
 	// Update interval for timer, in milliseconds
 	public static final int INTERVAL = 35;
 	public static final int customerInterval = 5000;
-	public static final int timeOut = 15000;
+	public static final int timeOut = 10000;
+	private Timer people;
 
 	public GameCourt(JLabel scoreCnt) {
 		this.scoreCnt = scoreCnt;
@@ -72,9 +73,8 @@ public class GameCourt extends JPanel {
 		});
 		timer.start(); // MAKE SURE TO START THE TIMER!
 		
-		
 		//customer appearances
-		Timer people = new Timer(customerInterval, new ActionListener() {
+		people = new Timer(customerInterval, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (counter > 3) {
 					counter = 0;
@@ -89,8 +89,6 @@ public class GameCourt extends JPanel {
 				int recipeNum = (int) (Math.random() * 5);
 				String[] recipeImgs = {"coffee.png", "espresso.png", "mocha.png", "latte.png", "tea.png"};
 				String[] names = {"coffee", "espresso", "mocha", "latte", "tea"};
-			
-				//System.out.println(recipeImgs[recipeNum]);
 				
 				//create new customer
 				Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, xLoc, names[recipeNum], recipeImgs[recipeNum]);
@@ -110,20 +108,20 @@ public class GameCourt extends JPanel {
 				}
 			}
 		});
-		removePeople.setInitialDelay(15000);
+		removePeople.setDelay(10000);
 		removePeople.start(); // MAKE SURE TO START THE TIMER!
-		
 		// Enable keyboard focus on the court area.
 		// When this component has the keyboard focus, key
 		// events will be handled by its key listener.
 		setFocusable(true);
-
 	}
 
 	/**
 	 * (Re-)set the game to its initial state.
 	 */
 	public void reset() {
+		JOptionPane.showMessageDialog(null, 
+			    "Your Boss wants $100!");
 		playing = true;
 		conveyor = new Conveyor(COURT_WIDTH, COURT_HEIGHT);
 		// Make sure that this component has the keyboard focus
@@ -167,8 +165,11 @@ public class GameCourt extends JPanel {
 							score += 10;
 							
 							if (score >= 100) {
-								scoreCnt.setText("YOU WIN!!!!!!!!");
+								JOptionPane.showMessageDialog(null, 
+										"YOU WIN! You are now a barista pro!");
+								//scoreCnt.setText("YOU WIN! You are now a barista pro!");
 								playing = false;
+								people.stop();
 							}
 							
 							scoreCnt.setText("$" + score);

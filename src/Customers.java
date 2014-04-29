@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Customers extends GameObj {
-	public String img_file = "customer.png";
+	public static String img_file = "customer.png";
 	public String order = "";
 	public String orderImg = "";
 	public static int sizeX = 150;
@@ -47,6 +47,11 @@ public class Customers extends GameObj {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public static Image getImage() throws IOException {
+		return ImageIO.read(new File(img_file));
 	}
 
 }
