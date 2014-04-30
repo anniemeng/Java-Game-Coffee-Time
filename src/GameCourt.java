@@ -37,6 +37,7 @@ public class GameCourt extends JPanel {
 	private JLabel scoreCnt = new JLabel();
 	private int score = 0;
 	private ConveyorItem current;
+	private boolean[] atLoc = new boolean[4];
 	
 	public void addToConveyor(String file, String nameDrink) {
 		current = new ConveyorItem(COURT_WIDTH, COURT_HEIGHT, file, nameDrink);
@@ -83,7 +84,6 @@ public class GameCourt extends JPanel {
 		//customer appearances
 		people = new Timer(customerInterval, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(counter);
 				if (customerList.size() < 3 && customerList.size() >= 0) {
 					if (counter > 3) {
 						counter = 0;
@@ -93,19 +93,24 @@ public class GameCourt extends JPanel {
 				int[] loc = {250, 750, 0, 500};
 				int xLoc = loc[counter];
 				
-				//change possible recipes
-				int recipeNum = (int) (Math.random() * 5);
-				String [] names = Game.output.keySet().toArray(new String[0]);
-				String currentName = names[recipeNum];
-				String currentFile = Game.output.get(currentName);
+				if (!atLoc[counter]) {
+					atLoc[counter] = true;
 				
-				//create new customer
-				Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, 
-												   xLoc, currentName,
-												   currentFile);
-				customerList.add(current);
-				repaint();
-				counter += 1;
+					//change possible recipes
+					int recipeNum = (int) (Math.random() * 5);
+					String [] names = Game.output.keySet().toArray(new 
+																	String[0]);
+					String currentName = names[recipeNum];
+					String currentFile = Game.output.get(currentName);
+				
+					//create new customer
+					Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, 
+												   		xLoc, currentName,
+												   		currentFile);
+					customerList.add(current);
+					repaint();
+					counter += 1;
+					}
 				}
 			}
 		});
@@ -117,12 +122,22 @@ public class GameCourt extends JPanel {
 		removePeople = new Timer(timeOut, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!customerList.isEmpty()) {
+					int xLocCurrent = customerList.get(0).pos_x;
+					if (xLocCurrent == 250) {
+						atLoc[0] = false;
+					} else if (xLocCurrent == 750) {
+						atLoc[1] = false;
+					} else if (xLocCurrent == 0) {
+						atLoc[2] = false;
+					} else if (xLocCurrent == 500) {
+						atLoc[3] = false;
+					}
 					customerList.remove(0);
 					repaint();
 				}
 			}
 		});
-		removePeople.setInitialDelay(15000);
+		removePeople.setInitialDelay(25000);
 		//removePeople.start(); // MAKE SURE TO START THE TIMER!
 		
 		
@@ -221,8 +236,20 @@ public class GameCourt extends JPanel {
 						int lowerBnd = customerList.get(j).pos_x + 50;
 						String conveyorImg = onConveyor.get(i).img_file;
 						String orderImg = customerList.get(j).orderImg;
+						int xLocCurrent = customerList.get(j).pos_x;
+						
 						if (conveyorImg == orderImg && 
 								(drinkLoc > lowerBnd && drinkLoc < upperBnd)) {
+							if (xLocCurrent == 250) {
+								atLoc[0] = false;
+							} else if (xLocCurrent == 750) {
+								atLoc[1] = false;
+							} else if (xLocCurrent == 0) {
+								atLoc[2] = false;
+							} else if (xLocCurrent == 500) {
+								atLoc[3] = false;
+							}
+	
 							onConveyor.remove(i);
 							customerList.remove(j);
 							repaint();
@@ -269,7 +296,6 @@ public class GameCourt extends JPanel {
 		if (!onConveyor.isEmpty()) {
 			for (int j = 0; j < onConveyor.size(); j++) {
 				onConveyor.get(j).draw(g);
-				System.out.println(onConveyor.get(j).pos_x);
 			}
 		}
 		
