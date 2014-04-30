@@ -16,6 +16,7 @@ import java.util.TreeSet;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 
 
 /**
@@ -137,7 +138,7 @@ public class Game implements Runnable {
 	public void run() {
 
 		// Top-level frame in which game components live
-		frame.setLocation(200, 200);
+		frame.setLocation(0, 0);
 		
 		// Main playing area
 		//final GameCourt court = new GameCourt();
@@ -196,7 +197,31 @@ public class Game implements Runnable {
 	    instructions.setFont(new Font("Monotype Corsiva", Font.BOLD, 14));
 	    instructions.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		JOptionPane.showMessageDialog(court, "instructions go here", "Instructions", JOptionPane.INFORMATION_MESSAGE);
+	    		JOptionPane.showMessageDialog(court, 
+				"Today, you'll be a barista for the day!"
+				+ "\n \n GOAL:"
+		 		+ "\n College students low on sleep will be dropping in "
+		 		+ "randomly with orders to the left of their head."
+		 		+ "\n You have to FULFILL these orders!" 
+		 		+ "\n \n HOW TO CREATE:"
+		 		+ "\n The RECIPE BOOK contains all the ingredients for "
+		 		+ "each drink. Use this to make the drink correctly!"
+		 		+ "\n Create their orders by clicking on the ingredient button."
+		 		+ "\n The ingredients you select will appear in the "
+		 		+ "creation area. \n When finished "
+		 		+ "click 'CREATE'." + "\n They will be put on the "
+		 		+ "conveyor belt and if they match the customer's order, "
+		 		+ "they'll disappear and you earn $10!" 
+		 		+ "\n \n WATCH OUT!" 
+		 		+ "\n Ingredients will run out! The number beside the"
+		 		+ " ingredient button shows how much is left." 
+		 		+ "\n If it reaches 0, right click the button and follow the "
+		 		+ "instructions on the dialog. "
+		 		+ "\n ONLY if you follow it CORRECTLY will your supplies refill!"
+		 		+ "\n \n ALSO BEWARE CUSTOMER WAITING TIME! After a certain "
+		 		+ "amount of time your customers will be unhappy and leave!"
+		 		+ " \n \n HOW TO WIN: Your Boss wants $100!", 
+	    				"Instructions", JOptionPane.INFORMATION_MESSAGE);
 	            court.requestFocusInWindow();
 	         }
 	    });
@@ -226,7 +251,8 @@ public class Game implements Runnable {
 		//BUTTONS IN CREATION
 		final JPanel creationButtons = new JPanel(new FlowLayout());
 		creationButtons.setBackground(new Color(34,17,22));
-		creationButtons.setBorder(BorderFactory.createLineBorder(Color.black, 5));
+		creationButtons.setBorder(BorderFactory.createLineBorder(Color.black, 
+																5));
 		creationArea.add(creationButtons, BorderLayout.PAGE_END);
 		
 		//CREATION AREA DISPLAY
@@ -548,16 +574,18 @@ public class Game implements Runnable {
 		recipesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//NEW JFRAME OPTION
-				JFrame newRecipes = new JFrame();
+				JFrame newRecipes = new JFrame("Recipe Book");
 				newRecipes.setLocation(1000,500);
-				newRecipes.setSize(new Dimension(500,300));
-				newRecipes.getContentPane().setBackground(new Color(255,250,222));
+				newRecipes.setSize(new Dimension(300,300));
+				newRecipes.getContentPane().setBackground(new 
+															Color(255,250,222));
 				
 				//TABBED OPTION PANE OPTION
 				recipeDisplay = new JTabbedPane(JTabbedPane.TOP);
 				JComponent panel1;
 				//number of separate recipes
-				for (Map.Entry<TreeSet<String>, String> entry : recipes.entrySet()) {
+				for (Map.Entry<TreeSet<String>, String> entry :
+														recipes.entrySet()) {
 					//new tab panel
 					panel1 = new JPanel();
 					panel1.setLayout(new BorderLayout());
@@ -584,11 +612,16 @@ public class Game implements Runnable {
 					recipeBlock.add(product);
 					
 					//display ingredients
-					JPanel ingredientDisp = new JPanel(new FlowLayout(FlowLayout.LEADING, 20, 0));
-					ingredientDisp.setBorder(BorderFactory.createRaisedBevelBorder());
+					JPanel ingredientDisp = new JPanel();
+					ingredientDisp.setLayout(new FlowLayout(FlowLayout.LEADING, 
+															20, 0));
+					Border raisedBev = BorderFactory.createRaisedBevelBorder();
+					ingredientDisp.setBorder(raisedBev);
 					TreeSet<String> currentIngredients = null;
-			        for(Map.Entry<TreeSet<String>, String> ingredientList : recipes.entrySet()) {
-			            if(name != null && name.equals(ingredientList.getValue())) {
+			        for(Map.Entry<TreeSet<String>, String> ingredientList : 
+			        									recipes.entrySet()) {
+			            if (name != null && 
+			            			name.equals(ingredientList.getValue())) {
 			                currentIngredients = ingredientList.getKey();
 			                break;
 			            }
@@ -597,8 +630,9 @@ public class Game implements Runnable {
 			        Iterator<String> onTreeSet = currentIngredients.iterator();
 			        while (onTreeSet.hasNext()) {
 			        	String current = onTreeSet.next();
-			        	Icon currentImg = new ImageIcon(ingredientImgs.get(current));
-			        	JLabel ingredientLabel = new JLabel(null, currentImg, JLabel.CENTER);
+			        	Icon img = new ImageIcon(ingredientImgs.get(current));
+			        	JLabel ingredientLabel = new JLabel(null, img, 
+			        										JLabel.CENTER);
 			        	ingredientDisp.add(ingredientLabel);
 			        }
 			        
@@ -655,6 +689,7 @@ public class Game implements Runnable {
 		String[] latteList = {"mug", "bean", "milk", "cream"};
 		recipeBook.setRecipes(latteList, "latte");
 		
+		//ADD NEW RECIPES
 		/*
 		String[] test = {"mug", "milk"};
 		recipeBook.setRecipes(test, "test");
@@ -671,6 +706,8 @@ public class Game implements Runnable {
 		outputImgs.setOutput("mocha", "mocha.png");
 		outputImgs.setOutput("latte", "latte.png");
 		outputImgs.setOutput("tea", "tea.png");
+		
+		//ADD NEW RECIPES
 		//outputImgs.setOutput("test", "coffeecup.png");
 		
 		//change Output to TreeMap

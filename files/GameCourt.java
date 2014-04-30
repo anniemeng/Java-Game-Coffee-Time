@@ -37,6 +37,7 @@ public class GameCourt extends JPanel {
 	private JLabel scoreCnt = new JLabel();
 	private int score = 0;
 	private ConveyorItem current;
+	private boolean[] atLoc = new boolean[4];
 	
 	public void addToConveyor(String file, String nameDrink) {
 		current = new ConveyorItem(COURT_WIDTH, COURT_HEIGHT, file, nameDrink);
@@ -55,7 +56,7 @@ public class GameCourt extends JPanel {
 	// Update interval for timer, in milliseconds
 	public static final int INTERVAL = 35;
 	public static final int customerInterval = 5000;
-	public static final int timeOut = 20000;
+	public static final int timeOut = 25000;
 	private Timer people;
 	private Timer removePeople;
 
@@ -83,8 +84,7 @@ public class GameCourt extends JPanel {
 		//customer appearances
 		people = new Timer(customerInterval, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if (customerList.size() < 3) {
+				if (customerList.size() < 3 && customerList.size() >= 0) {
 					if (counter > 3) {
 						counter = 0;
 					}
@@ -92,23 +92,29 @@ public class GameCourt extends JPanel {
 				//possible locations
 				int[] loc = {250, 750, 0, 500};
 				int xLoc = loc[counter];
-				System.out.println(xLoc);
 				
-				//change possible recipes
-				int recipeNum = (int) (Math.random() * 5);
-				String [] names = Game.output.keySet().toArray(new String[0]);
-				String currentName = names[recipeNum];
-				String currentFile = Game.output.get(currentName);
+				if (!atLoc[counter]) {
+					atLoc[counter] = true;
 				
-				//create new customer
-				Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, xLoc, currentName, currentFile);
-				customerList.add(current);
-				repaint();
-				counter += 1;
+					//change possible recipes
+					int recipeNum = (int) (Math.random() * 5);
+					String [] names = Game.output.keySet().toArray(new 
+																	String[0]);
+					String currentName = names[recipeNum];
+					String currentFile = Game.output.get(currentName);
+				
+					//create new customer
+					Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, 
+												   		xLoc, currentName,
+												   		currentFile);
+					customerList.add(current);
+					repaint();
+					counter += 1;
+					}
 				}
 			}
 		});
-		people.setInitialDelay(5000);
+		people.setInitialDelay(10000);
 		//people.start(); // MAKE SURE TO START THE TIMER!
 		
 		
@@ -116,12 +122,22 @@ public class GameCourt extends JPanel {
 		removePeople = new Timer(timeOut, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!customerList.isEmpty()) {
+					int xLocCurrent = customerList.get(0).pos_x;
+					if (xLocCurrent == 250) {
+						atLoc[0] = false;
+					} else if (xLocCurrent == 750) {
+						atLoc[1] = false;
+					} else if (xLocCurrent == 0) {
+						atLoc[2] = false;
+					} else if (xLocCurrent == 500) {
+						atLoc[3] = false;
+					}
 					customerList.remove(0);
 					repaint();
 				}
 			}
 		});
-		removePeople.setInitialDelay(15000);
+		removePeople.setInitialDelay(25000);
 		//removePeople.start(); // MAKE SURE TO START THE TIMER!
 		
 		
@@ -141,22 +157,40 @@ public class GameCourt extends JPanel {
 		background = new Background (COURT_WIDTH, COURT_HEIGHT);
 		repaint();
 		
-		 JOptionPane start = new JOptionPane();
-		 /*
-		 UIManager UI=new UIManager();
-		 UI.put("OptionPane.background", new Color(90,53,45));
-		 UI.put("Panel.background",new Color(90,53,45));
-		 */
-		 JLabel startmsg = new JLabel("Your Boss wants $100!");
-		 startmsg.setFont(new Font("Monotype Corsiva", Font.PLAIN, 18));
-		 //startmsg.setForeground(Color.white);
-		 
-		start.showMessageDialog(null, startmsg, "Think you have what it takes?", 
-									JOptionPane.INFORMATION_MESSAGE, 
-									new ImageIcon(ImageIO.read(new File ("weirich.jpg")).getScaledInstance(125, 175, 0)));
+		JOptionPane start = new JOptionPane();
+		start.showMessageDialog(Game.court, 
+				"Today, you'll be a barista for the day!"
+				+ "\n \n GOAL:"
+		 		+ "\n College students low on sleep will be dropping in "
+		 		+ "randomly with orders to the left of their head."
+		 		+ "\n You have to FULFILL these orders!" 
+		 		+ "\n \n HOW TO CREATE:"
+		 		+ "\n The RECIPE BOOK contains all the ingredients for "
+		 		+ "each drink. Use this to make the drink correctly!"
+		 		+ "\n Create their orders by clicking on the ingredient button."
+		 		+ "\n The ingredients you select will appear in the "
+		 		+ "creation area. \n When finished "
+		 		+ "click 'CREATE'." + "\n They will be put on the "
+		 		+ "conveyor belt and if they match the customer's order, "
+		 		+ "they'll disappear and you earn $10!" 
+		 		+ "\n \n WATCH OUT!" 
+		 		+ "\n Ingredients will run out! The number beside the"
+		 		+ " ingredient button shows how much is left." 
+		 		+ "\n If it reaches 0, right click the button and follow the "
+		 		+ "instructions on the dialog. "
+		 		+ "\n ONLY if you follow it CORRECTLY will your supplies refill!"
+		 		+ "\n \n ALSO BEWARE CUSTOMER WAITING TIME! After a certain "
+		 		+ "amount of time your customers will be unhappy and leave!"
+		 		+ " \n \n HOW TO WIN: Your Boss wants $100!" 
+		 		+ "\n \n FEATURES:" 
+	            + "\n - Conveyor animation and item-customer location check"
+		 		+ "\n - Tabbed recipe book: easy to add new recipes", 
+								"Think you have what it takes?", 
+								JOptionPane.INFORMATION_MESSAGE);
+		
 		playing = true;
-		people.start(); // MAKE SURE TO START THE TIMER!
-		removePeople.start(); // MAKE SURE TO START THE TIMER!
+		people.start(); 
+		removePeople.start(); 
 		// Make sure that this component has the keyboard focus
 		requestFocusInWindow();
 	}
@@ -197,9 +231,25 @@ public class GameCourt extends JPanel {
 					for (int j = 0; j < customerList.size(); j++) {
 						if (!onConveyor.isEmpty()) {
 						int drinkLoc = onConveyor.get(i).pos_x;
-						int upperBound = customerList.get(j).pos_x + customerList.get(j).sizeX;
-						int lowerBound = customerList.get(j).pos_x + 50;
-						if (onConveyor.get(i).img_file == customerList.get(j).orderImg && (drinkLoc > lowerBound && drinkLoc < upperBound)) {
+						int upperBnd = customerList.get(j).pos_x + 
+								customerList.get(j).sizeX;
+						int lowerBnd = customerList.get(j).pos_x + 50;
+						String conveyorImg = onConveyor.get(i).img_file;
+						String orderImg = customerList.get(j).orderImg;
+						int xLocCurrent = customerList.get(j).pos_x;
+						
+						if (conveyorImg == orderImg && 
+								(drinkLoc > lowerBnd && drinkLoc < upperBnd)) {
+							if (xLocCurrent == 250) {
+								atLoc[0] = false;
+							} else if (xLocCurrent == 750) {
+								atLoc[1] = false;
+							} else if (xLocCurrent == 0) {
+								atLoc[2] = false;
+							} else if (xLocCurrent == 500) {
+								atLoc[3] = false;
+							}
+	
 							onConveyor.remove(i);
 							customerList.remove(j);
 							repaint();
@@ -211,7 +261,7 @@ public class GameCourt extends JPanel {
 								customerList.clear();
 								onConveyor.clear();
 								repaint();
-								JOptionPane.showMessageDialog(null, 
+								JOptionPane.showMessageDialog(Game.court, 
 										"YOU WIN! You are now a barista pro!");
 								playing = false;
 								break;
@@ -246,7 +296,6 @@ public class GameCourt extends JPanel {
 		if (!onConveyor.isEmpty()) {
 			for (int j = 0; j < onConveyor.size(); j++) {
 				onConveyor.get(j).draw(g);
-				System.out.println(onConveyor.get(j).pos_x);
 			}
 		}
 		

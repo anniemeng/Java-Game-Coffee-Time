@@ -13,14 +13,15 @@ public class Customers extends GameObj {
 	public static int sizeX = 150;
 	public static final int sizeY = 250;
 	public static int INIT_X = 0;
-	public static int INIT_Y = 35;
+	public static int INIT_Y = 45;
 	public static final int INIT_VEL_X = 0;
 	public static final int INIT_VEL_Y = 0;
 
 	private static BufferedImage img;
 	private static BufferedImage drink;
 
-	public Customers (int courtWidth, int courtHeight, int locX, String order, String orderImg) {
+	public Customers (int courtWidth, int courtHeight, int locX, String order,
+						String orderImg) {
 		super(INIT_VEL_X, INIT_VEL_Y, locX, INIT_Y, sizeX, sizeY, courtWidth,
 				courtHeight);
 		try {
