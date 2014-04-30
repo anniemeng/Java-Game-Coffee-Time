@@ -1,18 +1,13 @@
-import java.awt.Image;
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
-import javax.imageio.ImageIO;
-
+/**
+ * Output stores the output images needed for the conveyor in a treemap. 
+ * It links the name of the drink to the image of the drink itself
+ *
+ */
 
 public class Output {
-	
-	private String name;
-	private String img;
 	private TreeMap<String, String> output;
 
 	public Output() {
@@ -24,11 +19,6 @@ public class Output {
 	}
 	
 	public void setOutput(String name, String file) throws IOException {
-		this.name = name;
-
 		output.put(name,file);
-		
 	}
-	
-
 }

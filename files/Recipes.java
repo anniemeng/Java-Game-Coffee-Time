@@ -1,11 +1,13 @@
 import java.util.HashMap;
 import java.util.TreeSet;
 
+/**
+ * Recipes constructs a new recipe book that stores the ingredients and 
+ * associates them with the name of the recipe
+ *
+ */
 public class Recipes {
 	private TreeSet<String> ingredients;
-	private String name;
-	
-	
 	private HashMap<TreeSet<String>, String> recipeBook; 
 	
 	public Recipes() {
@@ -16,22 +18,11 @@ public class Recipes {
 		return recipeBook;
 	}
 	
-	public TreeSet<String> getRecipes() {
-		return ingredients;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
 	public void setRecipes(String[] items, String name) {
 		ingredients = new TreeSet<String>();
 		for (int i = 0; i < items.length; i++) {
 			ingredients.add(items[i]);
 		}
-		this.name = name;
 		recipeBook.put(ingredients, name);
 	}
-
-	
 }

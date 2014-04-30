@@ -51,7 +51,6 @@ public class GameObj {
 		this.width = width;
 		this.height = height;
 		
-		// take the width and height into account when setting the 
 		// bounds for the upper left corner of the object.
 		this.max_x = court_width - width;
 		this.max_y = court_height - height;
@@ -60,8 +59,7 @@ public class GameObj {
 
 
 	/**
-	 * Moves the object by its velocity.  Ensures that the object does
-	 * not go outside its bounds by clipping.
+	 * Moves the object by its velocity.
 	 */
 	public void move(){
 		pos_x += v_x;

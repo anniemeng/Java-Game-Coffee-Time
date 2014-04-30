@@ -5,6 +5,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Conveyor initializes and creates the conveyor belt in the game court
+ */
+
 public class Conveyor extends GameObj {
 	public static final String img_file = "newconveyor.png";
 	public static final int sizeX = 1000;
@@ -31,8 +35,6 @@ public class Conveyor extends GameObj {
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(img, pos_x, pos_y, width, height, null);
-		//g.setColor(Color.DARK_GRAY);
-		//g.fillRect(0, 325, 50 ,15);
 	}
 
 }

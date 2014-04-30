@@ -1,14 +1,16 @@
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
+/**
+ * ConveyorItem controls the appearance and motion of each valid submitted drink
+ * by the user
+ */
 public class ConveyorItem extends GameObj {
 	public String img_file = "";
-	public static String name = "";
+	public String name = "";
 	public static final int sizeX = 70;
 	public static final int sizeY = 70;
 	public static final int INIT_X = 0;
@@ -26,8 +28,6 @@ public class ConveyorItem extends GameObj {
 			img_file = pic;
 	}
 
-	
-	
 	@Override
 	public void draw(Graphics g) {
 		try {
@@ -36,7 +36,5 @@ public class ConveyorItem extends GameObj {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
-
 }

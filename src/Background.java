@@ -2,9 +2,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
+/**
+ * Background initializes and creates the images placed in the game court
+ * background
+ */
 public class Background extends GameObj {
 	public static final String img_file = "shop.jpg";
 	public static final String chair = "chair.jpg";
@@ -25,9 +28,7 @@ public class Background extends GameObj {
 			if (img == null) {
 				img = ImageIO.read(new File(img_file));
 			}
-
 				chairImg = ImageIO.read(new File(chair));
-
 		} catch (IOException e) {
 			System.out.println("Internal Error:" + e.getMessage());
 		}

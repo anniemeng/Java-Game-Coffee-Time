@@ -6,6 +6,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Controls appearance of the customer and associates them with an order
+ *
+ */
 public class Customers extends GameObj {
 	public static String img_file = "customer.png";
 	public String order = "";
@@ -27,12 +31,10 @@ public class Customers extends GameObj {
 		try {
 			this.order = order;
 			this.orderImg = orderImg;
-			
 			INIT_X = locX;
 			if (img == null) {
 				img = ImageIO.read(new File(img_file));
 			}
-			
 		} catch (IOException e) {
 			System.out.println("Internal Error:" + e.getMessage());
 		}
@@ -49,7 +51,11 @@ public class Customers extends GameObj {
 		}
 	}
 	
-	
+	/**
+	 * Gives image of the customer
+	 * @return Image 
+	 * @throws IOException
+	 */
 	public static Image getImage() throws IOException {
 		return ImageIO.read(new File(img_file));
 	}
