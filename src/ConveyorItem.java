@@ -13,17 +13,17 @@ public class ConveyorItem extends GameObj {
 	public static final int sizeY = 70;
 	public static final int INIT_X = 0;
 	public static final int INIT_Y = 280;
-	public static final int INIT_VEL_X = 4;
+	public static final int INIT_VEL_X = 5;
 	public static final int INIT_VEL_Y = 0;
 
 	public static BufferedImage img;
 
-	public ConveyorItem (int courtWidth, int courtHeight, String pic, String name) {
+	public ConveyorItem (int courtWidth, int courtHeight, String pic, 
+						String name) {
 		super(INIT_VEL_X, INIT_VEL_Y, INIT_X, INIT_Y, sizeX, sizeY, courtWidth,
 				courtHeight);
 			this.name = name;
 			img_file = pic;
-			//img = ImageIO.read(new File(img_file));
 	}
 
 	

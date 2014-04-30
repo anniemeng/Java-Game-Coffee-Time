@@ -25,12 +25,14 @@ public class Game implements Runnable {
 	
 	//DATA STRUCTURE TO STORE INGREDIENTS APPEARING IN CREATION AREA
 	private ArrayList<JLabel> ingredientArea = new ArrayList<JLabel>();		//displays ingredients selected
-	private ArrayList<JButton> areaButtons = new ArrayList<JButton>();		//tracks ingredient buttons 
+	private ArrayList<JButton> areaButtons = new ArrayList<JButton>();		//tracks ingredient buttons selected 
 	private TreeSet<String> submitted = new TreeSet<String>();				//stores creation
+	private ArrayList<JButton> allButtons = new ArrayList<JButton>();       //keeps track of all ingredient buttons
+																			//created
 	
-	private HashMap<String, Image> ingredientImgs = new HashMap<String,Image>();  //matches ingredient images 
+	private HashMap<String, Image> ingredientImgs = new HashMap<String,Image>();  //ingredient images 
 	private static HashMap<TreeSet<String>, String> recipes;				//recipe book
-	public static TreeMap<String, String> output;							//matches output to image						//output images
+	public static TreeMap<String, String> output;							//output images					
 	
 	public static JLabel scoreCnt = new JLabel();							//score counts
 	final static GameCourt court = new GameCourt(scoreCnt);
@@ -82,6 +84,15 @@ public class Game implements Runnable {
 		
 	}
 
+	//manipulate ingredient buttons
+	public void ingrButtons() {
+		for (int i = 0; i < allButtons.size(); i++) {
+			allButtons.get(i).setBackground(new Color(221,184,128));
+			allButtons.get(i).setOpaque(true);
+			allButtons.get(i).setBorder(BorderFactory.createLoweredBevelBorder());
+		}
+	}
+	
 	//refill supplies dialog
 	public void supplies(JButton button) {
 		//restock ingredients
@@ -132,7 +143,6 @@ public class Game implements Runnable {
 		//final GameCourt court = new GameCourt();
 		court.setBorder(BorderFactory.createLineBorder(Color.black));
 		frame.add(court, BorderLayout.CENTER);
-
 		
 		// TOP PANEL
 		final JPanel control_panel = new JPanel();
@@ -167,8 +177,13 @@ public class Game implements Runnable {
 	    restart.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		try {
-					canvasClear();
+					canvasClear();	
+					//reset button labels
+					for (int i = 0; i < allButtons.size(); i++) {
+						allButtons.get(i).setText("10");
+					}
 					court.restart();
+					
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -197,19 +212,10 @@ public class Game implements Runnable {
 		});
 		topButtons.add(quit);
 		
-		
 		// BOTTOM PANEL
 		final JPanel bottom = new JPanel(new BorderLayout());
 		bottom.setPreferredSize(new Dimension(1000, 300));
 		frame.add(bottom, BorderLayout.SOUTH);
-		
-		
-		// INGREDIENT BUTTONS
-		final JPanel ingredients = new JPanel(new GridLayout(2, 4, 10, 10));
-		ingredients.setPreferredSize(new Dimension(400, 300));
-		ingredients.setBackground(new Color(53,26,5));
-		bottom.add(ingredients, BorderLayout.WEST);
-		
 		
 		//CREATION AREA
 		final JPanel creationArea = new JPanel(new BorderLayout());
@@ -258,9 +264,13 @@ public class Game implements Runnable {
 		});
 		creationButtons.add(clearButton);
 		
+		//INGREDIENT BUTTONS!
+		final JPanel ingredients = new JPanel(new GridLayout(2, 4, 10, 10));
+		ingredients.setPreferredSize(new Dimension(400, 300));
+		ingredients.setBackground(new Color(53,26,5));
+		bottom.add(ingredients, BorderLayout.WEST);
 		
 		//NORMAL MUG
-		//resize mug image
 		Image mug = null;
 		try {
 			mug = ImageIO.read(new File ("normalcup.png"));
@@ -273,9 +283,7 @@ public class Game implements Runnable {
 		//create button for mug
 		ImageIcon normImg = new ImageIcon(resizeMug);
 		final JButton normCupButton = new JButton("10", normImg);
-		normCupButton.setBackground(new Color(221,184,128));
-		normCupButton.setOpaque(true);
-		normCupButton.setBorder(BorderFactory.createLoweredBevelBorder());
+		allButtons.add(normCupButton);
 		normCupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(normCupButton.getText());
@@ -306,9 +314,7 @@ public class Game implements Runnable {
 		ingredientImgs.put("togo", resizeToGo);
 		ImageIcon toGoCupImg = new ImageIcon(resizeToGo);
 		final JButton toGoCupButton = new JButton("10", toGoCupImg);
-		toGoCupButton.setBackground(new Color(221,184,128));
-		toGoCupButton.setOpaque(true);
-		toGoCupButton.setBorder(BorderFactory.createLoweredBevelBorder());
+		allButtons.add(toGoCupButton);
 		toGoCupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(toGoCupButton.getText());
@@ -341,9 +347,7 @@ public class Game implements Runnable {
 		ImageIcon espImg = new ImageIcon(espResize);
 		
 		final JButton shortCupButton = new JButton("10", espImg);
-		shortCupButton.setBackground(new Color(221,184,128));
-		shortCupButton.setOpaque(true);
-		shortCupButton.setBorder(BorderFactory.createLoweredBevelBorder());
+		allButtons.add(shortCupButton);
 		shortCupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(shortCupButton.getText());
@@ -375,9 +379,7 @@ public class Game implements Runnable {
 		ImageIcon coffeeBeanImg = new ImageIcon(coffeeBeanResize);
 		
 		final JButton coffeeBeanButton = new JButton("10", coffeeBeanImg);
-		coffeeBeanButton.setBackground(new Color(221,184,128));
-		coffeeBeanButton.setOpaque(true);
-		coffeeBeanButton.setBorder(BorderFactory.createLoweredBevelBorder());
+		allButtons.add(coffeeBeanButton);
 		coffeeBeanButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(coffeeBeanButton.getText());
@@ -411,9 +413,7 @@ public class Game implements Runnable {
 		ingredientImgs.put("chocolate", chocolateResize);
 		
 		final JButton chocButton = new JButton("10", chocImg);
-		chocButton.setBackground(new Color(221,184,128));
-		chocButton.setOpaque(true);
-		chocButton.setBorder(BorderFactory.createLoweredBevelBorder());
+		allButtons.add(chocButton);
 		chocButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(chocButton.getText());
@@ -446,9 +446,7 @@ public class Game implements Runnable {
 		ingredientImgs.put("milk", milkResize);
 		
 		final JButton milkButton = new JButton("10", milkImg);
-		milkButton.setBackground(new Color(221,184,128));
-		milkButton.setOpaque(true);
-		milkButton.setBorder(BorderFactory.createLoweredBevelBorder());
+		allButtons.add(milkButton);
 		milkButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(milkButton.getText());
@@ -482,9 +480,7 @@ public class Game implements Runnable {
 		ingredientImgs.put("tea", teaResize);
 		
 		final JButton teaButton = new JButton("10", teaImg);
-		teaButton.setBackground(new Color(221,184,128));
-		teaButton.setOpaque(true);
-		teaButton.setBorder(BorderFactory.createLoweredBevelBorder());
+		allButtons.add(teaButton);
 		teaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(teaButton.getText());
@@ -517,9 +513,7 @@ public class Game implements Runnable {
 		ingredientImgs.put("cream", creamResize);
 		
 		final JButton creamButton = new JButton("10", creamImg);
-		creamButton.setBackground(new Color(221,184,128));
-		creamButton.setOpaque(true);
-		creamButton.setBorder(BorderFactory.createLoweredBevelBorder());
+		allButtons.add(creamButton);
 		creamButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int label = Integer.parseInt(creamButton.getText());
@@ -540,74 +534,12 @@ public class Game implements Runnable {
 		
 		ingredients.add(creamButton);
 		
-		/*
-
-		//ICE
-		ImageIcon iceImg = new ImageIcon("coffeecup.jpg");
-		final JButton iceButton = new JButton("10", iceImg);
-		iceButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addIngredient(creationTop, frame, "coffeecup.jpg");
-			}
-		});
-		ingredients.add(iceButton);
+		// CALL ON BUTTON METHOD
+		ingrButtons();
 		
-
-		
-		//SYRUP
-		ImageIcon syrupImg = new ImageIcon("coffeecup.jpg");
-		final JButton syrupButton = new JButton("10", syrupImg);
-		syrupButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addIngredient(creationTop, frame, "coffeecup.jpg");
-			}
-		});
-		//add to treemap
-		//buttonIds.put("syrup", syrupButton);
-		
-		ingredients.add(syrupButton);
-		
-		
-		
-		//CINNAMON 
-		ImageIcon cinnaImg = new ImageIcon("coffeecup.jpg");
-		final JButton cinnaButton = new JButton("10", cinnaImg);
-		cinnaButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addIngredient(creationTop, frame, "coffeecup.jpg");
-			}
-		});
-		//add to treemap
-		//buttonIds.put("cinnamon", cinnaButton);
-		
-		ingredients.add(cinnaButton);
-		
-
-		//VANILLA
-		ImageIcon vanillaImg = new ImageIcon("coffeecup.jpg");
-		final JButton vanillaButton = new JButton("10", vanillaImg);
-		vanillaButton.setPreferredSize(new Dimension(50, 50));
-		vanillaButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addIngredient(creationTop, frame, "coffeecup.jpg");
-			}
-		});
-		//add to treemap
-		//buttonIds.put( "vanilla", vanillaButton);
-		
-		ingredients.add(vanillaButton);	
-		
-	*/
-
-		
-		//RECIPE AND PHONE
-		final JPanel interactionArea = new JPanel(new GridLayout(1, 1, 0, 30));
-		interactionArea.setBackground(new Color(53,26,5));
-		interactionArea.setPreferredSize(new Dimension(200, 300));
-		interactionArea.setBorder(BorderFactory.createLineBorder(Color.black));
-		bottom.add(interactionArea, BorderLayout.EAST);
-		
+		//RECIPE AREA
 		final JButton recipesButton = new JButton("Recipes");
+		recipesButton.setPreferredSize(new Dimension(200, 300));
 		recipesButton.setBackground(new Color(97,25,11));
 		recipesButton.setOpaque(true);
 		recipesButton.setBorder(BorderFactory.createLoweredBevelBorder());
@@ -615,12 +547,10 @@ public class Game implements Runnable {
 		recipesButton.setForeground(Color.white);
 		recipesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
 				//NEW JFRAME OPTION
 				JFrame newRecipes = new JFrame();
-				newRecipes.setLocation(750,500);
-				newRecipes.setSize(new Dimension(500,175));
+				newRecipes.setLocation(1000,500);
+				newRecipes.setSize(new Dimension(500,300));
 				newRecipes.getContentPane().setBackground(new Color(255,250,222));
 				
 				//TABBED OPTION PANE OPTION
@@ -683,9 +613,7 @@ public class Game implements Runnable {
 				court.requestFocusInWindow();
 			}
 		});
-		interactionArea.add(recipesButton, "NORTH");
-		
-	 
+		bottom.add(recipesButton, BorderLayout.EAST);
 		
 		// Put the frame on the screen
 		frame.pack();

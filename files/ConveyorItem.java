@@ -23,7 +23,6 @@ public class ConveyorItem extends GameObj {
 				courtHeight);
 			this.name = name;
 			img_file = pic;
-			//img = ImageIO.read(new File(img_file));
 	}
 
 	

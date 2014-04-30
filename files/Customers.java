@@ -13,7 +13,7 @@ public class Customers extends GameObj {
 	public static int sizeX = 150;
 	public static final int sizeY = 250;
 	public static int INIT_X = 0;
-	public static int INIT_Y = 45;
+	public static int INIT_Y = 35;
 	public static final int INIT_VEL_X = 0;
 	public static final int INIT_VEL_Y = 0;
 

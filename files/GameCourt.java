@@ -39,7 +39,7 @@ public class GameCourt extends JPanel {
 	private ConveyorItem current;
 	
 	public void addToConveyor(String file, String nameDrink) {
-		current = new ConveyorItem(COURT_HEIGHT, COURT_WIDTH, file, nameDrink);
+		current = new ConveyorItem(COURT_WIDTH, COURT_HEIGHT, file, nameDrink);
 		onConveyor.add(current);
 		repaint();
 	}
@@ -50,7 +50,7 @@ public class GameCourt extends JPanel {
 
 	// Game constants
 	public static final int COURT_WIDTH = 1000;
-	public static final int COURT_HEIGHT = 1000;
+	public static final int COURT_HEIGHT = 400;
 	
 	// Update interval for timer, in milliseconds
 	public static final int INTERVAL = 35;
@@ -97,20 +97,8 @@ public class GameCourt extends JPanel {
 				//change possible recipes
 				int recipeNum = (int) (Math.random() * 5);
 				String [] names = Game.output.keySet().toArray(new String[0]);
-				/*
-				for (Map.Entry<String, String> entry : Game.output.entrySet()) {
-					String name = entry.getKey();
-					String file = entry.getValue();
-				}
-				*/
-				
 				String currentName = names[recipeNum];
 				String currentFile = Game.output.get(currentName);
-				
-				//String[] recipeImgs = {"coffee.png", "espresso.png", "mocha.png", "latte.png", "tea.png"};
-				//recipeImgs[recipeNum]
-				//names[recipeNum]
-				//String[] names = {"coffee", "espresso", "mocha", "latte", "tea"};
 				
 				//create new customer
 				Customers current = new Customers(COURT_WIDTH, COURT_HEIGHT, xLoc, currentName, currentFile);
@@ -200,8 +188,8 @@ public class GameCourt extends JPanel {
 			if (!onConveyor.isEmpty()) {
 				for (int i = 0; i < onConveyor.size(); i++) {
 					onConveyor.get(i).move();
-					boolean wall = onConveyor.get(i).hitWall();
-					if (wall) {
+					//boolean wall = onConveyor.get(i).pos_x < 1000 ;
+					if (onConveyor.get(i).pos_x > 1000) {
 						onConveyor.remove(i); 
 					}
 					
@@ -211,7 +199,6 @@ public class GameCourt extends JPanel {
 						int drinkLoc = onConveyor.get(i).pos_x;
 						int upperBound = customerList.get(j).pos_x + customerList.get(j).sizeX;
 						int lowerBound = customerList.get(j).pos_x + 50;
-						
 						if (onConveyor.get(i).img_file == customerList.get(j).orderImg && (drinkLoc > lowerBound && drinkLoc < upperBound)) {
 							onConveyor.remove(i);
 							customerList.remove(j);
@@ -259,6 +246,7 @@ public class GameCourt extends JPanel {
 		if (!onConveyor.isEmpty()) {
 			for (int j = 0; j < onConveyor.size(); j++) {
 				onConveyor.get(j).draw(g);
+				System.out.println(onConveyor.get(j).pos_x);
 			}
 		}
 		
