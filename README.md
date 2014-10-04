@@ -1,12 +1,12 @@
 #Coffee Time 
 
-##OVERVIEW:
+###Overview:
 The game is based on "Coffee Bar" which is a time management game that requires
 the player to make drinks that customers order within a certain time so that
 they can earn money. The drinks they can make and that customers can order is 
 determined by what is in the recipe book. 
 
-##FEATURES:
+###Features:
 1) Conveyor belt animation
 - Submitted recipes are turned into drinks (if valid) that move from one 
 end of the conveyor belt to the other
@@ -20,3 +20,5 @@ matches the one that the customer ordered
 - Loops through the data structures containing the recipes and displays them
 each in a new tab, with the product on one side and the ingredients needed
 to make it on the other
+
+![alt tag](http://www.anniezmeng.com/img/game.jpeg)
